@@ -142,7 +142,6 @@ class AlmacenSeeder extends Seeder
                         'stock_actual' => 0,
                         'stock_minimo' => 10,
                         'ubicacion' => 'A-1-1',
-                        'fecha_fabricacion' => now()->subYear(),
                         'fecha_vencimiento' => now()->addYear(),
                         'precio_compra' => 0.50,
                         'precio_venta' => 1.00,
@@ -159,7 +158,6 @@ class AlmacenSeeder extends Seeder
                         'stock_actual' => 0,
                         'stock_minimo' => 15,
                         'ubicacion' => 'B-2-3',
-                        'fecha_fabricacion' => now()->subMonths(6),
                         'fecha_vencimiento' => now()->addDays(45), // Próximo a vencer
                         'precio_compra' => 2.00,
                         'precio_venta' => 4.00,

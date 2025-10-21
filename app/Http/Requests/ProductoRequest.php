@@ -47,42 +47,12 @@ class ProductoRequest extends FormRequest
                 'max:100',
                 'regex:/^[A-Za-z0-9\-_]+$/' // Solo alfanuméricos, guiones y guiones bajos
             ],
-            'fecha_fabricacion' => [
-                'required',
-                'date',
-                'before_or_equal:today'
-            ],
             'fecha_vencimiento' => [
                 'required',
                 'date',
-                'after:fecha_fabricacion',
                 'after:today'
             ],
-            'temperatura_almacenamiento' => [
-                'nullable',
-                'string',
-                'max:50'
-            ],
-            'registro_sanitario' => [
-                'nullable',
-                'string',
-                'max:100'
-            ],
-            'fabricante' => [
-                'nullable',
-                'string',
-                'max:255'
-            ],
-            'pais_origen' => [
-                'nullable',
-                'string',
-                'max:100'
-            ],
-            'observaciones_lote' => [
-                'nullable',
-                'string',
-                'max:500'
-            ],
+
             'cantidad_inicial' => [
                 'required',
                 'integer',
@@ -164,13 +134,9 @@ class ProductoRequest extends FormRequest
             'numero_lote.max' => 'El número de lote no puede exceder 100 caracteres.',
             'numero_lote.regex' => 'El número de lote solo puede contener letras, números, guiones y guiones bajos.',
             
-            'fecha_fabricacion.required' => 'La fecha de fabricación es obligatoria.',
-            'fecha_fabricacion.date' => 'La fecha de fabricación debe ser una fecha válida.',
-            'fecha_fabricacion.before_or_equal' => 'La fecha de fabricación no puede ser posterior a hoy.',
-            
             'fecha_vencimiento.required' => 'La fecha de vencimiento es obligatoria.',
             'fecha_vencimiento.date' => 'La fecha de vencimiento debe ser una fecha válida.',
-            'fecha_vencimiento.after' => 'La fecha de vencimiento debe ser posterior a la fecha de fabricación y a la fecha actual.',
+            'fecha_vencimiento.after' => 'La fecha de vencimiento debe ser posterior a la fecha actual.',
             
             'temperatura_almacenamiento.max' => 'La temperatura de almacenamiento no puede exceder 50 caracteres.',
             'registro_sanitario.max' => 'El registro sanitario no puede exceder 100 caracteres.',
@@ -229,7 +195,6 @@ class ProductoRequest extends FormRequest
             'nombre' => 'nombre del producto',
             'codigo_barras' => 'código de barras',
             'numero_lote' => 'número de lote',
-            'fecha_fabricacion' => 'fecha de fabricación',
             'fecha_vencimiento' => 'fecha de vencimiento',
             'temperatura_almacenamiento' => 'temperatura de almacenamiento',
             'registro_sanitario' => 'registro sanitario',
@@ -295,17 +260,16 @@ class ProductoRequest extends FormRequest
      */
     protected function validateFechas(Validator $validator): void
     {
-        $fechaFabricacion = $this->input('fecha_fabricacion');
         $fechaVencimiento = $this->input('fecha_vencimiento');
 
-        if ($fechaFabricacion && $fechaVencimiento) {
-            $fabricacion = \Carbon\Carbon::parse($fechaFabricacion);
+        if ($fechaVencimiento) {
             $vencimiento = \Carbon\Carbon::parse($fechaVencimiento);
+            $hoy = \Carbon\Carbon::now();
             
-            // Validar que la diferencia sea razonable (mínimo 30 días)
-            if ($vencimiento->diffInDays($fabricacion) < 30) {
+            // Validar que la fecha de vencimiento sea al menos 30 días en el futuro
+            if ($vencimiento->diffInDays($hoy) < 30) {
                 $validator->errors()->add('fecha_vencimiento', 
-                    'La fecha de vencimiento debe ser al menos 30 días posterior a la fecha de fabricación.'
+                    'La fecha de vencimiento debe ser al menos 30 días posterior a la fecha actual.'
                 );
             }
 

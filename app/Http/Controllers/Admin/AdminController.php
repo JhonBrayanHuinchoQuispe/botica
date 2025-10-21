@@ -4,11 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use App\Models\Categoria;
 use App\Models\ConfiguracionSistema;
+use App\Models\Proveedor;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -44,7 +51,7 @@ class AdminController extends Controller
             ]
         ];
 
-        return view('perfil.ver', compact('user', 'stats', 'actividadReciente'));
+        return view('pages.perfil.ver', compact('user', 'stats', 'actividadReciente'));
     }
 
     /**
@@ -53,7 +60,7 @@ class AdminController extends Controller
     public function editarPerfil()
     {
         $user = Auth::user();
-        return view('perfil.editar', compact('user'));
+        return view('pages.perfil.editar', compact('user'));
     }
 
     /**
@@ -61,6 +68,7 @@ class AdminController extends Controller
      */
     public function actualizarPerfil(Request $request)
     {
+        /** @var User $user */
         $user = Auth::user();
 
         $request->validate([
@@ -107,12 +115,13 @@ class AdminController extends Controller
         }
 
         $user->update($updateData);
+        $user = $user->fresh();
 
         return response()->json([
             'success' => true,
             'message' => 'Perfil actualizado correctamente',
-            'user' => $user->fresh(),
-            'avatar_url' => $user->fresh()->avatar_url
+            'user' => $user,
+            'avatar_url' => $user->avatar_url
         ]);
     }
 
@@ -121,9 +130,9 @@ class AdminController extends Controller
      */
     public function cambiarPassword(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'current_password' => ['required', 'current_password'],
-            'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -132,9 +141,10 @@ class AdminController extends Controller
                 'message' => 'Error de validación al cambiar la contraseña.'
             ], 422);
         }
-        $user = \Auth::user();
+        /** @var User $user */
+        $user = Auth::user();
         $user->update([
-            'password' => \Hash::make($request->password)
+            'password' => Hash::make($request->password)
         ]);
         return response()->json([
             'success' => true,
@@ -151,6 +161,7 @@ class AdminController extends Controller
             'avatar' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048']
         ]);
 
+        /** @var User $user */
         $user = Auth::user();
 
         // Eliminar avatar anterior si existe
@@ -162,11 +173,12 @@ class AdminController extends Controller
         $path = $request->file('avatar')->store('avatars', 'public');
         
         $user->update(['avatar' => $path]);
+        $user = $user->fresh();
 
         return response()->json([
             'success' => true,
             'message' => 'Avatar actualizado correctamente',
-            'avatar_url' => $user->fresh()->avatar_url
+            'avatar_url' => $user->avatar_url
         ]);
     }
 
@@ -175,6 +187,7 @@ class AdminController extends Controller
      */
     public function eliminarAvatar()
     {
+        /** @var User $user */
         $user = Auth::user();
 
         if ($user->avatar && Storage::exists('public/' . $user->avatar)) {
@@ -194,6 +207,7 @@ class AdminController extends Controller
      */
     public function actualizarConfiguracion(Request $request)
     {
+        /** @var User $user */
         $user = Auth::user();
 
         $user->update([
@@ -214,6 +228,7 @@ class AdminController extends Controller
      */
     public function exportarDatos()
     {
+        /** @var User $user */
         $user = Auth::user();
 
         $datos = [
@@ -250,6 +265,7 @@ class AdminController extends Controller
             'confirmacion' => ['required', 'in:ELIMINAR']
         ]);
 
+        /** @var User $user */
         $user = Auth::user();
 
         // Eliminar avatar si existe
@@ -272,24 +288,24 @@ class AdminController extends Controller
 
     public function viewProfile()
     {
-        return view('admin.profile');
+        return view('pages.admin.profile');
     }
 
     public function company()
     {
-        return view('admin.company');
+        return view('pages.admin.company');
     }
 
     public function usuarios()
     {
-        $proveedores = \App\Models\Proveedor::activos()->orderBy('razon_social')->get();
-        $categorias = \App\Models\Categoria::orderBy('nombre')->get();
-        return view('admin.usuarios', compact('proveedores', 'categorias'));
+        $proveedores = Proveedor::activos()->orderBy('razon_social')->get();
+        $categorias = Categoria::orderBy('nombre')->get();
+        return view('pages.admin.usuarios', compact('proveedores', 'categorias'));
     }
 
     public function roles()
     {
-        return view('admin.roles');
+        return view('pages.admin.roles');
     }
 
     /**
@@ -298,7 +314,7 @@ class AdminController extends Controller
     public function configuracion()
     {
         $configuracion = ConfiguracionSistema::obtenerConfiguracion();
-        return view('admin.configuracion', compact('configuracion'));
+        return view('pages.admin.configuracion', compact('configuracion'));
     }
 
     /**
@@ -325,6 +341,7 @@ class AdminController extends Controller
                 'imprimir_automatico' => 'required|boolean'
             ]);
 
+            /** @var ConfiguracionSistema $configuracion */
             $configuracion = ConfiguracionSistema::obtenerConfiguracion();
             
             $configuracion->update($request->except(['_token', '_method']));
@@ -342,7 +359,7 @@ class AdminController extends Controller
                 'errors' => $e->errors()
             ], 422);
         } catch (\Exception $e) {
-            \Log::error('Error al actualizar configuración del sistema: ' . $e->getMessage());
+            Log::error('Error al actualizar configuración del sistema: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => 'Error al actualizar la configuración: ' . $e->getMessage()
@@ -372,7 +389,7 @@ class AdminController extends Controller
 
     public function reportes()
     {
-        return view('admin.reportes');
+        return view('pages.admin.reportes');
     }
 
     // ============================================
@@ -385,7 +402,7 @@ class AdminController extends Controller
     public function configuracionEmpresa()
     {
         $configuracion = ConfiguracionSistema::obtenerConfiguracion();
-        return view('admin.configuracion.empresa', compact('configuracion'));
+        return view('pages.admin.configuracion.empresa', compact('configuracion'));
     }
 
     public function actualizarConfiguracionEmpresa(Request $request)
@@ -419,7 +436,7 @@ class AdminController extends Controller
     public function configuracionIgv()
     {
         $configuracion = ConfiguracionSistema::obtenerConfiguracion();
-        return view('admin.configuracion.igv', compact('configuracion'));
+        return view('pages.admin.configuracion.igv', compact('configuracion'));
     }
 
     public function actualizarConfiguracionIgv(Request $request)
@@ -449,7 +466,7 @@ class AdminController extends Controller
     public function configuracionImpresoras()
     {
         $configuracion = ConfiguracionSistema::obtenerConfiguracion();
-        return view('admin.configuracion.impresoras', compact('configuracion'));
+        return view('pages.admin.configuracion.impresoras', compact('configuracion'));
     }
 
     public function actualizarConfiguracionImpresoras(Request $request)
@@ -493,7 +510,7 @@ class AdminController extends Controller
     public function configuracionTickets()
     {
         $configuracion = ConfiguracionSistema::obtenerConfiguracion();
-        return view('admin.configuracion.tickets', compact('configuracion'));
+        return view('pages.admin.configuracion.tickets', compact('configuracion'));
     }
 
     public function actualizarConfiguracionTickets(Request $request)
@@ -535,7 +552,7 @@ class AdminController extends Controller
             ]
         ];
 
-        return view('admin.configuracion.ticket-preview', compact('configuracion', 'venta'));
+        return view('pages.admin.configuracion.ticket-preview', compact('configuracion', 'venta'));
     }
 
     /**
@@ -544,7 +561,7 @@ class AdminController extends Controller
     public function configuracionComprobantes()
     {
         $configuracion = ConfiguracionSistema::obtenerConfiguracion();
-        return view('admin.configuracion.comprobantes', compact('configuracion'));
+        return view('pages.admin.configuracion.comprobantes', compact('configuracion'));
     }
 
     public function actualizarConfiguracionComprobantes(Request $request)
@@ -575,7 +592,7 @@ class AdminController extends Controller
     public function configuracionAlertas()
     {
         $configuracion = ConfiguracionSistema::obtenerConfiguracion();
-        return view('admin.configuracion.alertas', compact('configuracion'));
+        return view('pages.admin.configuracion.alertas', compact('configuracion'));
     }
 
     public function actualizarConfiguracionAlertas(Request $request)
@@ -614,7 +631,7 @@ class AdminController extends Controller
             'app_cache' => count(glob(storage_path('framework/cache/data/*')))
         ];
 
-        return view('admin.configuracion.cache', compact('configuracion', 'cacheInfo'));
+        return view('pages.admin.configuracion.cache', compact('configuracion', 'cacheInfo'));
     }
 
     public function limpiarCache(Request $request)
@@ -626,22 +643,22 @@ class AdminController extends Controller
         try {
             switch ($request->tipo_cache) {
                 case 'config':
-                    \Artisan::call('config:clear');
+                    Artisan::call('config:clear');
                     $mensaje = 'Caché de configuración limpiado';
                     break;
                 case 'route':
-                    \Artisan::call('route:clear');
+                    Artisan::call('route:clear');
                     $mensaje = 'Caché de rutas limpiado';
                     break;
                 case 'view':
-                    \Artisan::call('view:clear');
+                    Artisan::call('view:clear');
                     $mensaje = 'Caché de vistas limpiado';
                     break;
                 case 'all':
-                    \Artisan::call('cache:clear');
-                    \Artisan::call('config:clear');
-                    \Artisan::call('route:clear');
-                    \Artisan::call('view:clear');
+                    Artisan::call('cache:clear');
+                    Artisan::call('config:clear');
+                    Artisan::call('route:clear');
+                    Artisan::call('view:clear');
                     $mensaje = 'Todo el caché ha sido limpiado';
                     break;
             }
@@ -670,21 +687,21 @@ class AdminController extends Controller
         try {
             switch ($request->tipo_optimizacion) {
                 case 'config':
-                    \Artisan::call('config:cache');
+                    Artisan::call('config:cache');
                     $mensaje = 'Configuración optimizada';
                     break;
                 case 'route':
-                    \Artisan::call('route:cache');
+                    Artisan::call('route:cache');
                     $mensaje = 'Rutas optimizadas';
                     break;
                 case 'autoload':
-                    \Artisan::call('optimize');
+                    Artisan::call('optimize');
                     $mensaje = 'Autoload optimizado';
                     break;
                 case 'all':
-                    \Artisan::call('optimize');
-                    \Artisan::call('config:cache');
-                    \Artisan::call('route:cache');
+                    Artisan::call('optimize');
+                    Artisan::call('config:cache');
+                    Artisan::call('route:cache');
                     $mensaje = 'Sistema completamente optimizado';
                     break;
             }
@@ -787,7 +804,7 @@ class AdminController extends Controller
             // Verificar conexión a base de datos
             $database = true;
             try {
-                \DB::connection()->getPdo();
+                DB::connection()->getPdo();
             } catch (\Exception $e) {
                 $database = false;
             }
@@ -902,7 +919,7 @@ class AdminController extends Controller
             'total' => 25.50
         ];
 
-        return view('admin.configuracion.comprobante-preview', compact('configuracion', 'comprobante'));
+        return view('pages.admin.configuracion.comprobante-preview', compact('configuracion', 'comprobante'));
     }
 
     /**
@@ -911,6 +928,6 @@ class AdminController extends Controller
     public function configuracionIndex()
     {
         $configuracion = ConfiguracionSistema::obtenerConfiguracion();
-        return view('admin.configuracion.index', compact('configuracion'));
+        return view('pages.admin.configuracion.index', compact('configuracion'));
     }
 }

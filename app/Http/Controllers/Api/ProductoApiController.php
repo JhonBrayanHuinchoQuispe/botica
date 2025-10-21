@@ -667,7 +667,7 @@ class ProductoApiController extends Controller
                 $product->estado = $estadoEspecifico;
                 $product->estadoTexto = $product->estado;
                 $product->barcode = $product->codigo_barras;
-                $product->image = $product->imagen ? asset('storage/productos/' . $product->imagen) : null;
+                $product->image = $product->imagen ? asset('storage/uploads/productos/' . $product->imagen) : null;
                 $product->ubicacion = $product->ubicacion_almacen; // Campo de ubicación
                 $product->presentacion = $product->presentacion;
                 $product->concentracion = $product->concentracion;
@@ -828,7 +828,6 @@ class ProductoApiController extends Controller
                 'stock_minimo' => $producto->stock_minimo,
                 'precio_compra' => $producto->precio_compra,
                 'precio_venta' => $producto->precio_venta,
-                'fecha_fabricacion' => $producto->fecha_fabricacion,
                 'fecha_vencimiento' => $producto->fecha_vencimiento,
                 'ubicacion' => $producto->ubicacion_almacen,
                 'imagen' => $producto->imagen,

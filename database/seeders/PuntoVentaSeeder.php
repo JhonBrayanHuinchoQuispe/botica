@@ -17,9 +17,6 @@ class PuntoVentaSeeder extends Seeder
                 'nombres' => 'Juan Carlos',
                 'apellido_paterno' => 'García',
                 'apellido_materno' => 'López',
-                'telefono' => '987654321',
-                'email' => 'juan.garcia@email.com',
-                'direccion' => 'Av. Principal 123',
                 'activo' => true
             ],
             [
@@ -27,9 +24,6 @@ class PuntoVentaSeeder extends Seeder
                 'nombres' => 'María Elena',
                 'apellido_paterno' => 'Rodríguez',
                 'apellido_materno' => 'Pérez',
-                'telefono' => '912345678',
-                'email' => 'maria.rodriguez@email.com',
-                'direccion' => 'Jr. Los Pinos 456',
                 'activo' => true
             ],
             [
@@ -37,9 +31,6 @@ class PuntoVentaSeeder extends Seeder
                 'nombres' => 'Pedro Antonio',
                 'apellido_paterno' => 'Martínez',
                 'apellido_materno' => 'Silva',
-                'telefono' => '965432178',
-                'email' => 'pedro.martinez@email.com',
-                'direccion' => 'Calle Las Flores 789',
                 'activo' => true
             ],
             [
@@ -47,9 +38,6 @@ class PuntoVentaSeeder extends Seeder
                 'nombres' => 'Ana Sofía',
                 'apellido_paterno' => 'Fernández',
                 'apellido_materno' => 'Torres',
-                'telefono' => '923456789',
-                'email' => 'ana.fernandez@email.com',
-                'direccion' => 'Av. Los Rosales 321',
                 'activo' => true
             ],
             [
@@ -57,9 +45,6 @@ class PuntoVentaSeeder extends Seeder
                 'nombres' => 'Carlos Eduardo',
                 'apellido_paterno' => 'Vargas',
                 'apellido_materno' => 'Mendoza',
-                'telefono' => '934567891',
-                'email' => 'carlos.vargas@email.com',
-                'direccion' => 'Jr. San Martin 654',
                 'activo' => true
             ]
         ];
@@ -93,7 +78,6 @@ class PuntoVentaSeeder extends Seeder
                     'stock_minimo' => 10,
                     'precio_compra' => 0.50,
                     'precio_venta' => 0.80,
-                    'fecha_fabricacion' => now()->subMonths(3),
                     'fecha_vencimiento' => now()->addMonths(18),
                     'ubicacion' => 'Estante A1',
                     'estado' => 'Normal'
@@ -110,7 +94,6 @@ class PuntoVentaSeeder extends Seeder
                     'stock_minimo' => 15,
                     'precio_compra' => 1.20,
                     'precio_venta' => 1.80,
-                    'fecha_fabricacion' => now()->subMonths(2),
                     'fecha_vencimiento' => now()->addMonths(20),
                     'ubicacion' => 'Estante A2',
                     'estado' => 'Normal'
@@ -127,7 +110,6 @@ class PuntoVentaSeeder extends Seeder
                     'stock_minimo' => 20,
                     'precio_compra' => 2.50,
                     'precio_venta' => 3.50,
-                    'fecha_fabricacion' => now()->subMonths(1),
                     'fecha_vencimiento' => now()->addMonths(24),
                     'ubicacion' => 'Estante B1',
                     'estado' => 'Normal'
@@ -144,7 +126,6 @@ class PuntoVentaSeeder extends Seeder
                     'stock_minimo' => 12,
                     'precio_compra' => 1.80,
                     'precio_venta' => 2.50,
-                    'fecha_fabricacion' => now()->subMonths(1),
                     'fecha_vencimiento' => now()->addMonths(30),
                     'ubicacion' => 'Estante C1',
                     'estado' => 'Normal'
@@ -161,7 +142,6 @@ class PuntoVentaSeeder extends Seeder
                     'stock_minimo' => 18,
                     'precio_compra' => 0.90,
                     'precio_venta' => 1.40,
-                    'fecha_fabricacion' => now()->subMonths(2),
                     'fecha_vencimiento' => now()->addMonths(22),
                     'ubicacion' => 'Estante A3',
                     'estado' => 'Normal'
@@ -187,4 +167,4 @@ class PuntoVentaSeeder extends Seeder
             $this->command->info("   - {$cliente['dni']}: {$cliente['nombres']} {$cliente['apellido_paterno']} {$cliente['apellido_materno']}");
         }
     }
-} 
+}

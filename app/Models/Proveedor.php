@@ -19,16 +19,7 @@ class Proveedor extends Model
         'telefono',
         'email',
         'direccion',
-        'ciudad',
-        'departamento',
-        'contacto_principal',
-        'telefono_contacto',
-        'email_contacto',
-        'estado',
-        'observaciones',
-        'limite_credito',
-        'dias_credito',
-        'categoria_proveedor'
+        'estado'
     ];
 
     protected $casts = [

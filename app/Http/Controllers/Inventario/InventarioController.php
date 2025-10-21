@@ -135,7 +135,7 @@ class InventarioController extends Controller
             ]);
         }
         
-        return view('inventario.productos', compact('productos', 'categorias', 'presentaciones', 'proveedores', 'title', 'subTitle', 'perPage', 'search', 'estado'));
+        return view('pages.inventario.productos', compact('productos', 'categorias', 'presentaciones', 'proveedores', 'title', 'subTitle', 'perPage', 'search', 'estado'));
     }
 
     /**
@@ -272,7 +272,6 @@ class InventarioController extends Controller
                     'stock_minimo' => $producto->stock_minimo,
                     'precio_compra' => $producto->precio_compra,
                     'precio_venta' => $producto->precio_venta,
-                    'fecha_fabricacion' => $producto->fecha_fabricacion_solo_fecha,
                     'fecha_vencimiento' => $producto->fecha_vencimiento_solo_fecha,
                     'ubicacion' => $producto->ubicacion,
                     'ubicacion_almacen' => $producto->ubicacion_almacen,
@@ -306,8 +305,7 @@ class InventarioController extends Controller
                 'concentracion' => 'required|string|max:255',
                 'stock_actual' => 'required|integer|min:0',
                 'stock_minimo' => 'required|integer|min:0',
-                'fecha_fabricacion' => 'required|date',
-                'fecha_vencimiento' => 'required|date|after_or_equal:fecha_fabricacion',
+                'fecha_vencimiento' => 'required|date',
                 'precio_compra' => 'required|numeric|min:0',
                 'precio_venta' => 'required|numeric|min:0|gt:precio_compra',
                 'imagen' => 'nullable|image|max:2048'
@@ -338,7 +336,6 @@ class InventarioController extends Controller
             $producto->stock_actual = $request->stock_actual;
             $producto->stock_minimo = $request->stock_minimo;
             $producto->ubicacion = null; // Se maneja en sección separada
-            $producto->fecha_fabricacion = $request->fecha_fabricacion;
             $producto->fecha_vencimiento = $request->fecha_vencimiento;
             $producto->precio_compra = $request->precio_compra;
             $producto->precio_venta = $request->precio_venta;
@@ -507,7 +504,7 @@ class InventarioController extends Controller
     public function categorias()
     {
         $categorias = Categoria::withCount('productos')->orderBy('id')->get();
-        return view('inventario.categorias', compact('categorias'));
+        return view('pages.inventario.categorias', compact('categorias'));
     }
 
     public function categoriasApi()
@@ -530,7 +527,7 @@ class InventarioController extends Controller
     public function presentacion()
     {
         $presentaciones = \App\Models\Presentacion::withCount('productos')->orderBy('id')->get();
-        return view('inventario.presentacion', compact('presentaciones'));
+        return view('pages.inventario.presentacion', compact('presentaciones'));
     }
 
     public function update(Request $request, $id)
@@ -559,8 +556,7 @@ class InventarioController extends Controller
                 'stock_minimo' => 'required|integer|min:0',
                 'precio_compra' => 'required|numeric|min:0',
                 'precio_venta' => 'required|numeric|min:0|gt:precio_compra',
-                'fecha_fabricacion' => 'required|date',
-                'fecha_vencimiento' => 'required|date|after_or_equal:fecha_fabricacion',
+                'fecha_vencimiento' => 'required|date',
                 'ubicacion' => 'nullable|string|max:255',
                 'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
@@ -660,7 +656,6 @@ class InventarioController extends Controller
                     'stock_minimo' => $producto->stock_minimo,
                     'precio_compra' => $producto->precio_compra,
                     'precio_venta' => $producto->precio_venta,
-                    'fecha_fabricacion' => $producto->fecha_fabricacion_solo_fecha,
                     'fecha_vencimiento' => $producto->fecha_vencimiento_solo_fecha,
                     'ubicacion' => $producto->ubicacion,
                     'ubicacion_almacen' => $producto->ubicacion_almacen,

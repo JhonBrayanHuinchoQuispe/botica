@@ -58,21 +58,15 @@ class VentaDetalle extends Model
         parent::boot();
 
         static::saving(function ($detalle) {
-            $producto = $detalle->producto;
-            if ($detalle->tipo_cantidad === 'presentacion') {
-                $detalle->cantidad_unidades = $producto->convertirAUnidades($detalle->cantidad);
-                $detalle->subtotal = $detalle->cantidad * $detalle->precio_unitario; // Precio unitario sería por presentación
-            } else {
-                $detalle->cantidad_unidades = $detalle->cantidad;
-                $detalle->subtotal = $detalle->cantidad * ($detalle->precio_unitario / $producto->unidades_por_presentacion); // Ajustar precio por unidad
-            }
+            // Calcular subtotal automáticamente
+            $detalle->subtotal = $detalle->cantidad * $detalle->precio_unitario;
         });
 
         static::saved(function ($detalle) {
             // Recalcular totales de la venta padre
             $detalle->venta->calcularTotales();
             // Actualizar stock del producto
-            $detalle->producto->actualizarStockVenta($detalle->cantidad_unidades, 'unidad');
+            $detalle->producto->actualizarStockVenta($detalle->cantidad, 'unidad');
         });
 
         static::deleted(function ($detalle) {
@@ -81,7 +75,7 @@ class VentaDetalle extends Model
                 $detalle->venta->calcularTotales();
             }
             // Revertir stock si es necesario
-            $detalle->producto->agregarStock($detalle->cantidad_unidades, 'unidad');
+            $detalle->producto->agregarStock($detalle->cantidad, 'unidad');
         });
     }
 }

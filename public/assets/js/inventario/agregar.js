@@ -161,18 +161,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Fechas: configurar fecha mínima para vencimiento
-        const fechaFabInput = formAgregarProducto.querySelector('input[name="fecha_fabricacion"]');
+        // Fechas: configurar fecha mínima para vencimiento (30 días desde hoy)
         const fechaVenInput = formAgregarProducto.querySelector('input[name="fecha_vencimiento"]');
         
-        if (fechaFabInput && fechaVenInput) {
-            fechaFabInput.addEventListener('input', function() {
-                if (this.value) {
-                    fechaVenInput.min = this.value;
-                } else {
-                    fechaVenInput.removeAttribute('min');
-                }
-            });
+        if (fechaVenInput) {
+            const hoy = new Date();
+            const fechaMinima = new Date(hoy.getTime() + (30 * 24 * 60 * 60 * 1000)); // 30 días desde hoy
+            fechaVenInput.min = fechaMinima.toISOString().split('T')[0];
         }
     }
 

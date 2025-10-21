@@ -18,7 +18,7 @@ class AuthenticationController extends Controller
             return redirect()->route('Dashboard');
         }
 
-        return view('admin.login');
+        return view('pages.admin.login');
     }
 
     /**

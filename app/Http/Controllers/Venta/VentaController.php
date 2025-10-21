@@ -15,7 +15,7 @@ class VentaController extends Controller
 {
     public function nueva()
     {
-        return view('ventas.nueva');
+        return view('pages.ventas.nueva');
     }
 
     public function historial(Request $request)
@@ -52,8 +52,10 @@ class VentaController extends Controller
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('numero_venta', 'like', "%{$search}%")
-                  ->orWhere('cliente_razon_social', 'like', "%{$search}%")
-                  ->orWhere('cliente_numero_documento', 'like', "%{$search}%")
+                  ->orWhereHas('cliente', function($clienteQuery) use ($search) {
+                      $clienteQuery->where('dni', 'like', "%{$search}%")
+                                  ->orWhere('nombre_completo', 'like', "%{$search}%");
+                  })
                   ->orWhereHas('detalles.producto', function($productQuery) use ($search) {
                       $productQuery->where('nombre', 'like', "%{$search}%");
                   });
@@ -66,7 +68,7 @@ class VentaController extends Controller
         // Obtener usuarios para filtro
         $usuarios = User::orderBy('name')->get();
         
-        return view('ventas.historial', compact('ventas', 'estadisticas', 'usuarios'));
+        return view('pages.ventas.historial', compact('ventas', 'estadisticas', 'usuarios'));
     }
 
     public function devoluciones(Request $request)
@@ -102,7 +104,7 @@ class VentaController extends Controller
             }
         }
         
-        return view('ventas.devoluciones', compact('estadisticas', 'venta'));
+        return view('pages.ventas.devoluciones', compact('estadisticas', 'venta'));
     }
 
     public function procesarDevolucion(Request $request)
@@ -369,7 +371,7 @@ class VentaController extends Controller
         // Obtener datos según el período
         $datos = $this->obtenerDatosReporte($periodo);
         
-        return view('ventas.reportes', compact('datos', 'periodo'));
+        return view('pages.ventas.reportes', compact('datos', 'periodo'));
     }
     
     /**

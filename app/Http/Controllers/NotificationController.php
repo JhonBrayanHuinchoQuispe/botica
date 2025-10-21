@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Notification;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,27 +12,11 @@ class NotificationController extends Controller
     /**
      * Obtener todas las notificaciones del usuario autenticado
      */
-    public function index(Request $request): JsonResponse
+    public function index(): JsonResponse
     {
-        $userId = Auth::id() ?? 1; // Fallback para testing
-        
-        $notifications = Notification::where('user_id', $userId)
+        $notifications = Notification::where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
-            ->limit(50)
-            ->get()
-            ->map(function ($notification) {
-                return [
-                    'id' => $notification->id,
-                    'type' => $notification->type,
-                    'title' => $notification->title,
-                    'message' => $notification->message,
-                    'priority' => $notification->priority,
-                    'is_read' => $notification->isRead(),
-                    'time_ago' => $notification->time_ago,
-                    'created_at' => $notification->created_at->format('Y-m-d H:i:s'),
-                    'data' => $notification->data
-                ];
-            });
+            ->get();
 
         return response()->json([
             'success' => true,
@@ -41,29 +25,14 @@ class NotificationController extends Controller
     }
 
     /**
-     * Obtener solo las notificaciones no leídas
+     * Obtener notificaciones no leídas
      */
-    public function unread(Request $request): JsonResponse
+    public function unread(): JsonResponse
     {
-        $userId = Auth::id() ?? 1;
-        
-        $notifications = Notification::where('user_id', $userId)
-            ->unread()
+        $notifications = Notification::where('user_id', Auth::id())
+            ->whereNull('read_at')
             ->orderBy('created_at', 'desc')
-            ->limit(20)
-            ->get()
-            ->map(function ($notification) {
-                return [
-                    'id' => $notification->id,
-                    'type' => $notification->type,
-                    'title' => $notification->title,
-                    'message' => $notification->message,
-                    'priority' => $notification->priority,
-                    'time_ago' => $notification->time_ago,
-                    'created_at' => $notification->created_at->format('Y-m-d H:i:s'),
-                    'data' => $notification->data
-                ];
-            });
+            ->get();
 
         return response()->json([
             'success' => true,
@@ -72,14 +41,12 @@ class NotificationController extends Controller
     }
 
     /**
-     * Contar notificaciones no leídas
+     * Obtener el conteo de notificaciones no leídas
      */
-    public function unreadCount(Request $request): JsonResponse
+    public function unreadCount(): JsonResponse
     {
-        $userId = Auth::id() ?? 1;
-        
-        $count = Notification::where('user_id', $userId)
-            ->unread()
+        $count = Notification::where('user_id', Auth::id())
+            ->whereNull('read_at')
             ->count();
 
         return response()->json([
@@ -91,12 +58,10 @@ class NotificationController extends Controller
     /**
      * Marcar una notificación como leída
      */
-    public function markAsRead(Request $request, $id): JsonResponse
+    public function markAsRead($id): JsonResponse
     {
-        $userId = Auth::id() ?? 1;
-        
-        $notification = Notification::where('id', $id)
-            ->where('user_id', $userId)
+        $notification = Notification::where('user_id', Auth::id())
+            ->where('id', $id)
             ->first();
 
         if (!$notification) {
@@ -106,7 +71,7 @@ class NotificationController extends Controller
             ], 404);
         }
 
-        $notification->markAsRead();
+        $notification->update(['read_at' => now()]);
 
         return response()->json([
             'success' => true,
@@ -117,29 +82,25 @@ class NotificationController extends Controller
     /**
      * Marcar todas las notificaciones como leídas
      */
-    public function markAllAsRead(Request $request): JsonResponse
+    public function markAllAsRead(): JsonResponse
     {
-        $userId = Auth::id() ?? 1;
-        
-        $updated = Notification::where('user_id', $userId)
-            ->unread()
+        Notification::where('user_id', Auth::id())
+            ->whereNull('read_at')
             ->update(['read_at' => now()]);
 
         return response()->json([
             'success' => true,
-            'message' => "Se marcaron {$updated} notificaciones como leídas"
+            'message' => 'Todas las notificaciones marcadas como leídas'
         ]);
     }
 
     /**
      * Eliminar una notificación
      */
-    public function destroy(Request $request, $id): JsonResponse
+    public function destroy($id): JsonResponse
     {
-        $userId = Auth::id() ?? 1;
-        
-        $notification = Notification::where('id', $id)
-            ->where('user_id', $userId)
+        $notification = Notification::where('user_id', Auth::id())
+            ->where('id', $id)
             ->first();
 
         if (!$notification) {
@@ -153,35 +114,19 @@ class NotificationController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Notificación eliminada'
+            'message' => 'Notificación eliminada correctamente'
         ]);
     }
 
     /**
      * Obtener notificaciones por tipo
      */
-    public function getByType(Request $request, $type): JsonResponse
+    public function getByType($type): JsonResponse
     {
-        $userId = Auth::id() ?? 1;
-        
-        $notifications = Notification::where('user_id', $userId)
-            ->ofType($type)
+        $notifications = Notification::where('user_id', Auth::id())
+            ->where('type', $type)
             ->orderBy('created_at', 'desc')
-            ->limit(20)
-            ->get()
-            ->map(function ($notification) {
-                return [
-                    'id' => $notification->id,
-                    'type' => $notification->type,
-                    'title' => $notification->title,
-                    'message' => $notification->message,
-                    'priority' => $notification->priority,
-                    'is_read' => $notification->isRead(),
-                    'time_ago' => $notification->time_ago,
-                    'created_at' => $notification->created_at->format('Y-m-d H:i:s'),
-                    'data' => $notification->data
-                ];
-            });
+            ->get();
 
         return response()->json([
             'success' => true,

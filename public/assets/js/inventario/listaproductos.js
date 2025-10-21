@@ -179,7 +179,6 @@ document.addEventListener("DOMContentLoaded", function() {
             'edit-stock_minimo': producto.stock_minimo,
             'edit-precio_compra': producto.precio_compra,
             'edit-precio_venta': producto.precio_venta,
-            'edit-fecha_fabricacion': producto.fecha_fabricacion || '',
             'edit-fecha_vencimiento': producto.fecha_vencimiento || ''
         };
         
@@ -307,7 +306,6 @@ document.addEventListener("DOMContentLoaded", function() {
             'modal-stock-min': producto.stock_minimo || '0',
             'modal-precio-compra': `S/ ${parseFloat(producto.precio_compra || 0).toFixed(2)}`,
             'modal-precio-venta': `S/ ${parseFloat(producto.precio_venta || 0).toFixed(2)}`,
-            'modal-fecha-fab': producto.fecha_fabricacion || 'N/A',
             'modal-fecha-ven': producto.fecha_vencimiento || 'N/A',
             'modal-categoria': producto.categoria || 'N/A',
             'modal-presentacion': producto.presentacion || 'N/A',

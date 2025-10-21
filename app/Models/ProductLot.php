@@ -17,25 +17,18 @@ class ProductLot extends Model
     protected $fillable = [
         'producto_id',
         'numero_lote',
-        'fecha_fabricacion',
         'fecha_vencimiento',
         'fecha_entrada',
         'cantidad_inicial',
         'cantidad_actual',
         'precio_compra',
         'precio_venta',
-        'registro_sanitario',
-        'fabricante',
-        'pais_origen',
-        'temperatura_almacenamiento',
         'estado',
-        'observaciones',
         'created_by',
         'updated_by'
     ];
 
     protected $casts = [
-        'fecha_fabricacion' => 'date',
         'fecha_vencimiento' => 'date',
         'fecha_entrada' => 'date',
         'cantidad_inicial' => 'integer',

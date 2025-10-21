@@ -18,11 +18,19 @@ class ProductoRepository
     }
     
     /**
-     * Obtener todos los productos con relaciones
+     * Obtener todos los productos con relaciones (optimizado)
      */
     public function getAllWithRelations(array $relations = [])
     {
-        return $this->model->with($relations)->get();
+        return $this->model->with($relations);
+    }
+    
+    /**
+     * Obtener productos con relaciones y límite
+     */
+    public function getWithRelationsLimited(array $relations = [], int $limit = 100)
+    {
+        return $this->model->with($relations)->limit($limit)->get();
     }
     
     /**

@@ -2070,3 +2070,585 @@ input[type="checkbox"]:checked + .pos-descuento-slider:before {
         padding: 6px;
     }
 }
+
+/* ===============================================
+   MODO OSCURO - ADAPTACIONES COMPLETAS
+   =============================================== */
+
+/* Variables para modo oscuro */
+:root.dark {
+    --dark-bg-primary: #1f2937;
+    --dark-bg-secondary: #374151;
+    --dark-bg-tertiary: #4b5563;
+    --dark-text-primary: #f9fafb;
+    --dark-text-secondary: #e5e7eb;
+    --dark-text-muted: #9ca3af;
+    --dark-border: #4b5563;
+    --dark-border-light: #6b7280;
+    --dark-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenedor principal en modo oscuro */
+.dark .pos-container {
+    background: linear-gradient(135deg, var(--dark-bg-primary) 0%, #111827 50%, var(--dark-bg-primary) 100%);
+    color: var(--dark-text-primary);
+}
+
+/* Eliminado: .dark body - causaba conflictos con el modo claro */
+
+/* Panel principal en modo oscuro */
+.dark .pos-main {
+    background: transparent;
+}
+
+/* ===============================================
+   PANEL IZQUIERDO - MODO OSCURO
+   =============================================== */
+
+/* Sección de búsqueda en modo oscuro */
+.dark .pos-search-section {
+    background: var(--dark-bg-secondary);
+    border: 1px solid var(--dark-border);
+    box-shadow: var(--dark-shadow);
+}
+
+.dark .pos-search-input {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+.dark .pos-search-input::placeholder {
+    color: var(--dark-text-muted);
+}
+
+.dark .pos-search-input:focus {
+    border-color: var(--primary);
+    background: var(--dark-bg-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.dark .pos-search-icon {
+    color: var(--dark-text-muted);
+}
+
+.dark .pos-search-clear {
+    color: var(--dark-text-muted);
+    background: transparent;
+}
+
+.dark .pos-search-clear:hover {
+    color: var(--danger);
+    background: var(--dark-bg-tertiary);
+}
+
+/* Filtros en modo oscuro */
+.dark .pos-filter-btn {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-secondary);
+}
+
+.dark .pos-filter-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--dark-bg-tertiary);
+}
+
+.dark .pos-filter-btn.active {
+    background: linear-gradient(135deg, var(--primary) 0%, #2563eb 100%);
+    border-color: var(--primary);
+    color: var(--white);
+}
+
+/* Sección de productos en modo oscuro */
+.dark .pos-productos-section {
+    background: var(--dark-bg-secondary);
+    border: 1px solid var(--dark-border);
+    box-shadow: var(--dark-shadow);
+}
+
+.dark .pos-productos-header {
+    background: var(--dark-bg-tertiary);
+    border-bottom-color: var(--dark-border);
+}
+
+.dark .pos-productos-title {
+    color: var(--dark-text-primary);
+}
+
+.dark .pos-productos-count {
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* Tarjetas de productos en modo oscuro */
+.dark .producto-card {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.dark .producto-card:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 12px 24px rgba(59, 130, 246, 0.25);
+}
+
+.dark .producto-card.sin-stock {
+    background: linear-gradient(135deg, #3f1f1f 0%, var(--dark-bg-primary) 100%);
+    border-color: #ef4444;
+}
+
+.dark .producto-card.stock-bajo {
+    background: linear-gradient(135deg, #3f3f1f 0%, var(--dark-bg-primary) 100%);
+    border-color: #f59e0b;
+}
+
+.dark .producto-imagen {
+    background: linear-gradient(135deg, var(--dark-bg-tertiary) 0%, var(--dark-bg-secondary) 100%);
+    border-bottom-color: var(--dark-border);
+}
+
+.dark .producto-imagen-placeholder {
+    color: var(--dark-text-muted);
+}
+
+.dark .producto-nombre-completo {
+    color: var(--dark-text-primary);
+}
+
+.dark .producto-laboratorio {
+    color: var(--dark-text-muted);
+}
+
+.dark .producto-precio-container {
+    background: linear-gradient(135deg, var(--dark-bg-tertiary) 0%, var(--dark-bg-secondary) 100%);
+}
+
+.dark .producto-precio {
+    color: #ef4444;
+}
+
+/* Stock badges en modo oscuro */
+.dark .producto-stock.disponible {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+.dark .producto-stock.stock-bajo {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+}
+
+.dark .producto-stock.sin-stock {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+/* Ubicaciones en modo oscuro */
+.dark .producto-ubicacion-badge.sin-ubicacion {
+    background: linear-gradient(135deg, var(--dark-bg-tertiary) 0%, var(--dark-bg-secondary) 100%);
+    color: var(--dark-text-muted);
+    border-color: var(--dark-border);
+}
+
+.dark .producto-ubicacion-badge.con-ubicacion {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+    color: #10b981;
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.dark .producto-ubicacion-badge.multiples-ubicaciones {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.2) 0%, rgba(37, 99, 235, 0.1) 100%);
+    color: #3b82f6;
+    border-color: rgba(37, 99, 235, 0.3);
+}
+
+.dark .producto-ubicacion-badge.ubicacion-parcial {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.1) 100%);
+    color: #f59e0b;
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* Expansión de ubicaciones en modo oscuro */
+.dark .producto-ubicaciones-expandible {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.dark .ubicaciones-header {
+    color: var(--dark-text-primary);
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .ubicacion-item-expandible {
+    color: var(--dark-text-secondary);
+}
+
+/* No productos en modo oscuro */
+.dark .pos-no-productos {
+    color: var(--dark-text-muted);
+}
+
+.dark .pos-no-productos-icon {
+    color: var(--dark-text-muted);
+}
+
+/* Alternativas en modo oscuro */
+.dark .pos-alternativas-header {
+    background: var(--warning);
+    color: var(--white);
+}
+
+.dark .pos-alternativas-grid {
+    background: rgba(245, 158, 11, 0.1);
+}
+
+/* ===============================================
+   PANEL DERECHO - MODO OSCURO
+   =============================================== */
+
+.dark .pos-resumen-container {
+    background: var(--dark-bg-secondary);
+    border: 1px solid var(--dark-border);
+    box-shadow: var(--dark-shadow);
+}
+
+/* Carrito en modo oscuro */
+.dark .pos-carrito-farmacia {
+    background: linear-gradient(135deg, var(--dark-bg-tertiary) 0%, var(--dark-bg-secondary) 100%);
+    border-bottom-color: var(--dark-border);
+}
+
+.dark .pos-carrito-header-compacto {
+    background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+    color: white;
+}
+
+.dark .pos-carrito-vacio {
+    color: var(--dark-text-muted);
+}
+
+/* Items del carrito en modo oscuro */
+.dark .carrito-item {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dark .carrito-item:hover {
+    border-color: #dc2626;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
+}
+
+.dark .carrito-item-nombre-completo {
+    color: var(--dark-text-primary);
+}
+
+.dark .carrito-item-precio {
+    color: #ef4444;
+}
+
+.dark .cantidad-btn {
+    background: var(--dark-bg-secondary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-secondary);
+}
+
+.dark .cantidad-btn:hover {
+    border-color: #dc2626;
+    color: #ef4444;
+    background: var(--dark-bg-tertiary);
+}
+
+.dark .cantidad-input {
+    background: var(--dark-bg-tertiary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+.dark .cantidad-input:focus {
+    border-color: #dc2626;
+    background: var(--dark-bg-primary);
+}
+
+.dark .carrito-item-remove {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: white;
+}
+
+.dark .carrito-item-remove:hover {
+    background: #b91c1c;
+    border-color: #b91c1c;
+}
+
+/* Resumen en modo oscuro */
+.dark .pos-resumen-compacto {
+    background: var(--dark-bg-secondary);
+    border-top-color: var(--dark-border);
+}
+
+.dark .pos-totales-farmacia {
+    background: linear-gradient(135deg, var(--dark-bg-tertiary) 0%, var(--dark-bg-secondary) 100%);
+    border-color: var(--dark-border);
+}
+
+.dark .pos-total-fila {
+    color: var(--dark-text-secondary);
+}
+
+.dark .pos-total-fila.pos-total-principal {
+    color: var(--dark-text-primary);
+    border-top-color: var(--dark-border);
+}
+
+.dark .pos-total-fila.pos-total-principal span:last-child {
+    color: #ef4444;
+}
+
+/* Toggle de descuento en modo oscuro */
+.dark .pos-descuento-toggle-azul {
+    background: transparent;
+}
+
+.dark .pos-toggle-switch input:checked + .pos-toggle-slider {
+    background: #667eea;
+}
+
+.dark .pos-toggle-text {
+    color: var(--dark-text-primary);
+}
+
+.dark .pos-descuento-inline {
+    background: var(--dark-bg-tertiary);
+    border-color: var(--dark-border);
+}
+
+.dark .descuento-inline-campo {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+.dark .descuento-inline-campo:focus {
+    border-color: var(--primary);
+    background: var(--dark-bg-primary);
+}
+
+.dark .descuento-simbolo {
+    color: var(--dark-text-secondary);
+}
+
+.dark .descuento-radio input:checked + span {
+    background: var(--primary);
+    color: white;
+}
+
+.dark .descuento-radio span {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-secondary);
+}
+
+/* Métodos de pago en modo oscuro */
+.dark .pos-metodo-rapido {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-secondary);
+}
+
+.dark .pos-metodo-rapido:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.dark .pos-metodo-rapido.active {
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    border-color: #dc2626;
+    color: white;
+}
+
+.dark .pos-efectivo-rapido {
+    background: var(--dark-bg-tertiary);
+    border-color: var(--dark-border);
+}
+
+.dark .pos-efectivo-input {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+.dark .pos-efectivo-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.dark .pos-vuelto-display {
+    color: #10b981;
+}
+
+/* Comprobante toggle en modo oscuro */
+.dark .pos-comprobante-toggle {
+    color: var(--dark-text-primary);
+}
+
+.dark .pos-comprobante-slider {
+    background-color: var(--dark-border);
+}
+
+.dark input[type="checkbox"]:checked + .pos-comprobante-slider {
+    background-color: #667eea;
+}
+
+/* Botón procesar en modo oscuro */
+.dark .pos-btn-procesar-farmacia {
+    background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+    border-color: #dc2626;
+    color: white;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
+}
+
+.dark .pos-btn-procesar-farmacia:hover {
+    background: linear-gradient(135deg, #b91c1c 0%, #dc2626 100%);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.6);
+}
+
+.dark .pos-btn-procesar-farmacia:disabled {
+    background: var(--dark-bg-tertiary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-muted);
+    box-shadow: none;
+}
+
+/* Loading overlay en modo oscuro */
+.dark .pos-loading {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.dark .pos-loading-content {
+    background: var(--dark-bg-secondary);
+    border: 1px solid var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+/* Criterio de búsqueda en modo oscuro */
+.dark .criterio-busqueda-info {
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(14, 165, 233, 0.05) 100%);
+    border-color: rgba(14, 165, 233, 0.3);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+}
+
+.dark .criterio-header {
+    color: #0ea5e9;
+}
+
+.dark .criterio-texto {
+    color: var(--dark-text-secondary);
+}
+
+/* Productos alternativos en modo oscuro */
+.dark .producto-alternativo {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+}
+
+.dark .producto-alternativo:hover {
+    border-color: #10b981;
+    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.25);
+}
+
+.dark .producto-categoria {
+    background: var(--dark-bg-tertiary);
+    color: var(--dark-text-secondary);
+}
+
+.dark .razon-similitud {
+    background: linear-gradient(135deg, var(--dark-bg-tertiary) 0%, var(--dark-bg-secondary) 100%);
+    color: var(--dark-text-secondary);
+    border-left-color: var(--success);
+}
+
+.dark .producto-imagen-container {
+    background: linear-gradient(135deg, var(--dark-bg-tertiary) 0%, var(--dark-bg-secondary) 100%);
+    border-bottom-color: var(--dark-border);
+}
+
+.dark .producto-concentracion {
+    color: #3b82f6;
+}
+
+.dark .producto-presentacion {
+    color: var(--dark-text-muted);
+}
+
+/* ===== ESTILOS PARA SWEETALERT2 EN MODO OSCURO ===== */
+.dark .swal2-popup {
+    background: var(--dark-bg-primary) !important;
+    border: 1px solid var(--dark-border) !important;
+    color: var(--dark-text-primary) !important;
+}
+
+.dark .swal2-title {
+    color: var(--dark-text-primary) !important;
+}
+
+.dark .swal2-html-container {
+    color: var(--dark-text-primary) !important;
+}
+
+.dark .swal2-html-container div {
+    background: var(--dark-bg-secondary) !important;
+    border-color: var(--dark-border) !important;
+}
+
+.dark .swal2-html-container p {
+    color: var(--dark-text-primary) !important;
+}
+
+.dark .swal2-confirm {
+    background: #dc2626 !important;
+    border-color: #dc2626 !important;
+    color: white !important;
+}
+
+.dark .swal2-confirm:hover {
+    background: #b91c1c !important;
+    border-color: #b91c1c !important;
+}
+
+.dark .swal2-cancel {
+    background: var(--dark-bg-tertiary) !important;
+    border-color: var(--dark-border) !important;
+    color: var(--dark-text-primary) !important;
+}
+
+.dark .swal2-cancel:hover {
+    background: var(--dark-bg-secondary) !important;
+}
+
+.dark .swal2-icon {
+    border-color: var(--dark-border) !important;
+}
+
+.dark .swal2-icon.swal2-error {
+    border-color: #dc2626 !important;
+    color: #dc2626 !important;
+}
+
+.dark .swal2-icon.swal2-success {
+    border-color: #10b981 !important;
+    color: #10b981 !important;
+}
+
+.dark .swal2-icon.swal2-warning {
+    border-color: #f59e0b !important;
+    color: #f59e0b !important;
+}
+
+.dark .swal2-icon.swal2-info {
+    border-color: #3b82f6 !important;
+    color: #3b82f6 !important;
+}

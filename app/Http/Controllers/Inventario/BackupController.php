@@ -49,7 +49,7 @@ class BackupController extends Controller
                 $files = File::allFiles($imagePath);
 
                 foreach ($files as $file) {
-                    $relativePath = 'productos/' . $file->getRelativePathname();
+                    $relativePath = 'uploads/productos/' . $file->getRelativePathname();
                     $zip->addFile($file->getRealPath(), $relativePath);
                 }
 

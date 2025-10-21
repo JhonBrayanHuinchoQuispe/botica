@@ -10,27 +10,43 @@ return new class extends Migration
     public function up()
     {
         Schema::create('productos', function (Blueprint $table) {
-            $table->id(); // Cambiado a bigInteger auto-increment (estándar Laravel)
-            $table->string('nombre');
-            $table->string('imagen')->nullable();
-            $table->string('codigo_barras')->unique();
-            $table->string('lote');
-            $table->string('categoria');
-            $table->string('marca');
-            $table->string('presentacion');
-            $table->string('concentracion');
+            $table->id();
+            
+            // Información básica del producto
+            $table->string('nombre', 255);
+            $table->string('codigo_barras', 50)->unique();
+            $table->string('concentracion', 100)->nullable();
+            $table->string('marca', 100)->nullable();
+            $table->string('lote', 100)->nullable();
+            
+            // Categoría y presentación (mantenemos como string por ahora, las relaciones se agregan después)
+            $table->string('categoria', 100);
+            $table->string('presentacion', 100);
+            
+            // Stock y precios
             $table->integer('stock_actual')->default(0);
-            $table->integer('stock_minimo')->default(0);
-            $table->string('ubicacion');
-            $table->date('fecha_fabricacion'); // Solo fecha
-            $table->date('fecha_vencimiento'); // Solo fecha
+            $table->integer('stock_minimo')->default(10);
             $table->decimal('precio_compra', 10, 2);
             $table->decimal('precio_venta', 10, 2);
-            $table->enum('estado', ['Normal', 'Bajo stock', 'Por vencer', 'Vencido'])->default('Normal');
+            
+            // Fecha de vencimiento (eliminamos fecha_fabricacion)
+            $table->date('fecha_vencimiento');
+            
+            // Ubicación en almacén
+            $table->string('ubicacion', 100)->nullable();
+            
+            // Estado del producto
+            $table->enum('estado', ['Normal', 'Bajo stock', 'Por vencer', 'Vencido', 'Agotado'])->default('Normal');
+            
+            // Imagen del producto
+            $table->string('imagen', 500)->nullable();
+            
+            // Timestamps
             $table->timestamps();
-
+            
             // Índices para optimizar consultas
             $table->index(['nombre']);
+            $table->index(['codigo_barras']);
             $table->index(['categoria']);
             $table->index(['marca']);
             $table->index(['estado']);

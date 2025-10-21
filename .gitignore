@@ -61,5 +61,5 @@ Thumbs.db
 
 # Uploads and user content
 /public/uploads/*
-/public/productos/*
-!/public/productos/.gitkeep
+/public/uploads/productos/*
+!/public/uploads/productos/.gitkeep

@@ -1279,3 +1279,493 @@
     opacity: 1 !important;
     visibility: visible !important;
 }
+
+/* ==========================================
+   MODO OSCURO - HISTORIAL DE VENTAS
+   ========================================== */
+
+/* Variables para modo oscuro */
+.dark {
+    --dark-bg-primary: #1f2937;
+    --dark-bg-secondary: #374151;
+    --dark-bg-tertiary: #4b5563;
+    --dark-text-primary: #f9fafb;
+    --dark-text-secondary: #e5e7eb;
+    --dark-text-muted: #9ca3af;
+    --dark-border: #4b5563;
+    --dark-border-light: #6b7280;
+}
+
+/* Header en modo oscuro */
+.dark .historial-header {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    border: 1px solid var(--dark-border);
+}
+
+.dark .historial-header h1 {
+    color: var(--dark-text-primary);
+}
+
+/* Tarjetas de estadísticas en modo oscuro */
+.dark .historial-stat-card {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+.dark .historial-stat-card::before {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dark .historial-stat-card:hover {
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* Mantener los degradados originales para las tarjetas de estadísticas */
+.dark .historial-stat-red-improved {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 50%, #e74c3c 100%);
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+}
+
+.dark .historial-stat-orange-improved {
+    background: linear-gradient(135deg, #ffa726 0%, #ff9800 50%, #f57c00 100%);
+    box-shadow: 0 4px 15px rgba(255, 152, 0, 0.4);
+}
+
+.dark .historial-stat-blue-improved {
+    background: linear-gradient(135deg, #42a5f5 0%, #2196f3 50%, #1976d2 100%);
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+}
+
+.dark .historial-stat-green-improved {
+    background: linear-gradient(135deg, #66bb6a 0%, #4caf50 50%, #388e3c 100%);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+}
+
+/* Contenedor de tabla en modo oscuro */
+.dark .historial-table-container-improved {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+.dark .historial-table-header-improved {
+    background: linear-gradient(135deg, var(--dark-bg-secondary) 0%, var(--dark-bg-tertiary) 100%);
+    border-bottom-color: var(--dark-border);
+}
+
+/* Filtros en modo oscuro */
+.dark .historial-inline-label {
+    color: var(--dark-text-secondary);
+}
+
+.dark .historial-select-clean {
+    background: var(--dark-bg-secondary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+.dark .historial-select-clean:focus {
+    background: var(--dark-bg-tertiary);
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+}
+
+.dark .historial-select-arrow-clean {
+    color: var(--dark-text-muted);
+}
+
+.dark .historial-input-clean {
+    background: var(--dark-bg-secondary) !important;
+    border-color: var(--dark-border) !important;
+    color: var(--dark-text-primary) !important;
+}
+
+.dark .historial-input-clean:focus {
+    background: var(--dark-bg-tertiary) !important;
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2) !important;
+}
+
+.dark .historial-input-clean::placeholder {
+    color: var(--dark-text-muted) !important;
+}
+
+.dark .historial-input-clean:hover {
+    background: var(--dark-bg-tertiary) !important;
+    border-color: var(--dark-border-light) !important;
+}
+
+/* Tabla en modo oscuro */
+.dark .historial-table {
+    background: var(--dark-bg-primary);
+}
+
+.dark .historial-table thead th {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    color: var(--dark-text-primary);
+}
+
+.dark .historial-table tbody td {
+    border-bottom-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+.dark .historial-table tbody tr:hover {
+    background: var(--dark-bg-secondary);
+}
+
+/* Elementos específicos de la tabla en modo oscuro */
+.dark .historial-date {
+    color: var(--dark-text-primary);
+}
+
+.dark .historial-time {
+    color: var(--dark-text-muted);
+}
+
+.dark .historial-product-name {
+    color: var(--dark-text-primary);
+}
+
+.dark .historial-product-code {
+    color: var(--dark-text-muted);
+}
+
+.dark .historial-provider-name {
+    color: var(--dark-text-primary);
+}
+
+.dark .historial-provider-commercial {
+    color: var(--dark-text-muted);
+}
+
+.dark .historial-stock-change {
+    color: var(--dark-text-muted);
+}
+
+.dark .historial-lot {
+    color: var(--dark-text-primary);
+}
+
+.dark .historial-expiry {
+    color: var(--dark-text-muted);
+}
+
+.dark .historial-no-expiry {
+    color: var(--dark-text-muted);
+}
+
+.dark .historial-price {
+    color: #10b981;
+}
+
+.dark .historial-price-change {
+    color: #f59e0b;
+}
+
+.dark .historial-price-details {
+    color: var(--dark-text-muted);
+}
+
+.dark .historial-user-name {
+    color: var(--dark-text-primary);
+}
+
+.dark .historial-payment-details {
+    color: #10b981;
+}
+
+/* Badges en modo oscuro */
+.dark .historial-badge-success {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+.dark .historial-badge-gray {
+    background: var(--dark-bg-tertiary);
+    color: var(--dark-text-muted);
+}
+
+.dark .historial-badge-warning {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+}
+
+.dark .historial-badge-info {
+    background: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+}
+
+/* Paginación en modo oscuro */
+.dark .historial-pagination-improved {
+    background: var(--dark-bg-primary);
+    border-top-color: var(--dark-border);
+}
+
+.dark .historial-pagination-btn {
+    background: var(--dark-bg-secondary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-primary);
+}
+
+.dark .historial-pagination-btn:hover {
+    background: var(--dark-bg-tertiary);
+    border-color: var(--dark-border-light);
+    color: var(--dark-text-primary);
+}
+
+.dark .historial-pagination-btn-current {
+    background: #dc2626 !important;
+    border-color: #dc2626 !important;
+    color: white !important;
+}
+
+.dark .historial-pagination-btn-current:hover {
+    background: #b91c1c !important;
+    border-color: #b91c1c !important;
+    color: white !important;
+}
+
+.dark .historial-pagination-btn-disabled {
+    background: var(--dark-bg-secondary);
+    border-color: var(--dark-border);
+    color: var(--dark-text-muted);
+}
+
+/* Estados vacíos en modo oscuro */
+.dark .historial-empty-improved {
+    background: var(--dark-bg-secondary);
+}
+
+.dark .historial-empty-improved h3 {
+    color: var(--dark-text-primary);
+}
+
+.dark .historial-empty-improved p {
+    color: var(--dark-text-muted);
+}
+
+.dark .historial-no-results-cell {
+    background: var(--dark-bg-secondary) !important;
+}
+
+.dark .historial-no-results-content h3 {
+    color: var(--dark-text-primary);
+}
+
+.dark .historial-no-results-content p {
+    color: var(--dark-text-muted);
+}
+
+/* Botones en modo oscuro */
+.dark .historial-btn-secondary-small {
+    background: var(--dark-bg-tertiary);
+    color: var(--dark-text-primary);
+    border-color: var(--dark-border);
+}
+
+.dark .historial-btn-secondary-small:hover {
+    background: var(--dark-bg-secondary);
+    border-color: var(--dark-border-light);
+}
+
+.dark .historial-btn-primary-small {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+.dark .historial-btn-primary-small:hover {
+    background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+}
+
+.dark .historial-btn-nueva-entrada {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+.dark .historial-btn-nueva-entrada:hover {
+    background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+}
+
+/* Botones de acción en modo oscuro */
+.dark .historial-action-btn {
+    background: var(--dark-bg-tertiary);
+    color: #3b82f6;
+}
+
+.dark .historial-action-btn:hover {
+    background: var(--dark-bg-secondary);
+}
+
+/* Ventas devueltas en modo oscuro */
+.dark .venta-devuelta {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-left-color: #ef4444 !important;
+}
+
+.dark .venta-devuelta:hover {
+    background: rgba(239, 68, 68, 0.15) !important;
+}
+
+.dark .venta-devuelta .historial-price {
+    color: var(--dark-text-muted) !important;
+}
+
+/* ==========================================
+   MODO OSCURO - REPORTES DE VENTAS
+   ========================================== */
+
+/* Tarjetas de estadísticas de reportes en modo oscuro */
+.dark .reportes-stat-card {
+    border-color: var(--dark-border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+.dark .reportes-stat-card::before {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dark .reportes-stat-card:hover {
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* Mantener los degradados originales para reportes */
+.dark .reportes-stat-blue-gradient {
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+
+.dark .reportes-stat-green-gradient {
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+
+.dark .reportes-stat-orange-gradient {
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+}
+
+.dark .reportes-stat-purple-gradient {
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+
+/* Contenedores de gráficos en modo oscuro */
+.dark .reportes-chart-container {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+.dark .reportes-chart-container:hover {
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+.dark .reportes-chart-header {
+    background: linear-gradient(135deg, var(--dark-bg-secondary) 0%, var(--dark-bg-tertiary) 100%);
+    border-bottom-color: var(--dark-border);
+}
+
+.dark .reportes-chart-title {
+    color: var(--dark-text-primary);
+}
+
+.dark .reportes-chart-icon {
+    color: #3b82f6;
+}
+
+.dark .reportes-chart-subtitle {
+    color: var(--dark-text-muted);
+}
+
+.dark .reportes-chart-body {
+    background: var(--dark-bg-primary);
+}
+
+.dark .reportes-chart-loading {
+    color: var(--dark-text-muted);
+}
+
+.dark .reportes-loading-spinner {
+    border-color: var(--dark-bg-tertiary);
+    border-top-color: #3b82f6;
+}
+
+/* Tabla de reportes en modo oscuro */
+.dark .reportes-table-container {
+    background: var(--dark-bg-primary);
+    border-color: var(--dark-border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+.dark .reportes-table-container:hover {
+    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+.dark .reportes-table-header {
+    background: linear-gradient(135deg, var(--dark-bg-secondary) 0%, var(--dark-bg-tertiary) 100%);
+    border-bottom-color: var(--dark-border);
+}
+
+.dark .reportes-table-title {
+    color: var(--dark-text-primary);
+}
+
+.dark .reportes-table-icon {
+    color: #f59e0b;
+}
+
+.dark .reportes-table-subtitle {
+    color: var(--dark-text-muted);
+}
+
+.dark .reportes-table {
+    background: var(--dark-bg-primary);
+}
+
+.dark .reportes-table thead th {
+    background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+    color: var(--dark-text-primary);
+}
+
+.dark .reportes-table tbody td {
+    border-bottom-color: var(--dark-border);
+}
+
+.dark .reportes-table tbody tr:hover {
+    background: var(--dark-bg-secondary);
+}
+
+/* Elementos específicos de reportes en modo oscuro */
+.dark .reportes-product-name {
+    color: var(--dark-text-primary);
+}
+
+.dark .reportes-product-code {
+    color: var(--dark-text-muted);
+}
+
+.dark .reportes-rank-normal {
+    background: var(--dark-bg-tertiary);
+    color: var(--dark-text-muted);
+}
+
+.dark .reportes-progress-bar {
+    background: var(--dark-bg-tertiary);
+}
+
+.dark .reportes-percentage {
+    color: #10b981;
+}
+
+/* Estado vacío de reportes en modo oscuro */
+.dark .reportes-empty-state {
+    background: var(--dark-bg-secondary);
+}
+
+.dark .reportes-empty-icon {
+    color: var(--dark-border-light);
+}
+
+.dark .reportes-empty-title {
+    color: var(--dark-text-primary);
+}
+
+.dark .reportes-empty-text {
+    color: var(--dark-text-muted);
+}

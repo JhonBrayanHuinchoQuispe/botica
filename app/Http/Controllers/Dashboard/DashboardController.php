@@ -17,7 +17,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard.index');
+        return view('pages.dashboard.index');
     }
 
     public function analisis(Request $request)
@@ -56,14 +56,11 @@ class DashboardController extends Controller
         
         $cambioVentas = $ventasMes - $ventasMesAnterior;
         
-        // 3. COMPRAS/GASTOS - Basado en productos agregados
-        $productosEsteMes = Producto::whereMonth('created_at', Carbon::now('America/Lima')->month)
-                                  ->whereYear('created_at', Carbon::now('America/Lima')->year)
-                                  ->get();
-        
-        $gastosMes = $productosEsteMes->sum(function($producto) {
-            return $producto->precio_compra * $producto->stock_actual;
-        });
+        // 3. COMPRAS/GASTOS - Basado en productos agregados (optimizado)
+        $gastosMes = Producto::whereMonth('created_at', Carbon::now('America/Lima')->month)
+                            ->whereYear('created_at', Carbon::now('America/Lima')->year)
+                            ->selectRaw('SUM(precio_compra * stock_actual) as total_gastos')
+                            ->value('total_gastos') ?? 0;
         
         // 4. RENDIMIENTO (Ganancias estimadas)
         $costosVentas = 0;
@@ -142,7 +139,7 @@ class DashboardController extends Controller
             ]);
         }
         
-        return view('dashboard.analisis', compact(
+        return view('pages.dashboard.analisis', compact(
             // Datos principales
             'totalProductos', 'productosStockBajo', 'productosVencidos', 'productosProximosVencer', 'cambioStock',
             'ventasHoy', 'ventasMes', 'ingresosMes', 'cambioVentas',

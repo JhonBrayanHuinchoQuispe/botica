@@ -21,7 +21,7 @@ class UserController extends Controller
         $usuarios = User::with('roles')->latest()->get();
         $roles = Role::all();
         
-        return view('admin.usuarios.index', compact('usuarios', 'roles'));
+        return view('pages.admin.usuarios.index', compact('usuarios', 'roles'));
     }
 
     /**
@@ -30,7 +30,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('admin.usuarios.crear', compact('roles'));
+        return view('pages.admin.usuarios.crear', compact('roles'));
     }
 
     /**
@@ -125,7 +125,7 @@ class UserController extends Controller
         }
         
         // Vista normal para acceso directo
-        return view('admin.usuarios.show', compact('user'));
+        return view('pages.admin.usuarios.show', compact('user'));
     }
 
     /**
@@ -157,7 +157,7 @@ class UserController extends Controller
         
         // Vista normal para acceso directo
         $roles = Role::all();
-        return view('admin.usuarios.editar', compact('user', 'roles'));
+        return view('pages.admin.usuarios.editar', compact('user', 'roles'));
     }
 
     /**
@@ -225,6 +225,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        /** @var User $user */
         // No permitir eliminar al usuario autenticado
         if ($user->id === auth()->id()) {
             return response()->json([

@@ -27,25 +27,12 @@ class Producto extends Model
         'marca',
         'proveedor_id',
         'presentacion',
-        'presentacion_original',
-        'unidades_por_presentacion',
         'concentracion',
         'stock_actual',
         'stock_minimo',
-        'stock_unidades',
-        'stock_presentaciones',
-        'unidad_minima_venta',
-        'ubicacion',
-        'ubicacion_almacen',
-        'fecha_fabricacion',
         'fecha_vencimiento',
         'precio_compra',
         'precio_venta',
-        'precio_unidad',
-        'precio_presentacion',
-        'permite_venta_unitaria',
-        'permite_venta_presentacion',
-        'tipo_producto',
         'imagen',
         'estado'
     ];
@@ -53,17 +40,8 @@ class Producto extends Model
     protected $casts = [
         'stock_actual' => 'integer',
         'stock_minimo' => 'integer',
-        'stock_unidades' => 'integer',
-        'stock_presentaciones' => 'integer',
-        'unidad_minima_venta' => 'integer',
-        'unidades_por_presentacion' => 'integer',
         'precio_compra' => 'decimal:2',
         'precio_venta' => 'decimal:2',
-        'precio_unidad' => 'decimal:2',
-        'precio_presentacion' => 'decimal:2',
-        'permite_venta_unitaria' => 'boolean',
-        'permite_venta_presentacion' => 'boolean',
-        'fecha_fabricacion' => 'date',
         'fecha_vencimiento' => 'date'
     ];
 
@@ -354,12 +332,6 @@ class Producto extends Model
             return false;
         }
         return file_exists(storage_path('app/public/' . $this->imagen));
-    }
-
-    // Accessor para fecha de fabricación solo fecha
-    public function getFechaFabricacionSoloFechaAttribute()
-    {
-        return $this->fecha_fabricacion ? $this->fecha_fabricacion->format('Y-m-d') : null;
     }
 
     // Accessor para fecha de vencimiento solo fecha

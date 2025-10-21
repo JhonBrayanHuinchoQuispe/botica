@@ -47,7 +47,7 @@ class UbicacionController extends Controller
                         $estado = 'peligro';
                     } elseif ($porcentajeOcupacion >= 60) {
                         $estado = 'alerta';
-            } else {
+                    } else {
                         $estado = 'ok';
                     }
                     
@@ -79,7 +79,7 @@ class UbicacionController extends Controller
 
             Log::info("📊 Estadísticas del almacén: " . json_encode($estadisticas));
 
-            return view('ubicaciones.mapa', compact(
+            return view('pages.ubicaciones.mapa', compact(
                 'estantes', 
                 'configuracion', 
                 'productosUbicados', 
@@ -89,7 +89,7 @@ class UbicacionController extends Controller
         } catch (\Exception $e) {
             Log::error('Error en mapa de almacén: ' . $e->getMessage());
             Log::error('Stack trace: ' . $e->getTraceAsString());
-            return view('ubicaciones.mapa', [
+            return view('pages.ubicaciones.mapa', [
                 'estantes' => collect(), 
                 'configuracion' => null,
                 'productosUbicados' => collect(),
@@ -339,7 +339,7 @@ class UbicacionController extends Controller
             
             Log::info("  - Todos los productos: " . implode(', ', $productosDetectados));
 
-            return view('ubicaciones.estante-detalle', ['estante' => (object)$estanteInfo]);
+            return view('pages.ubicaciones.estante-detalle', ['estante' => (object)$estanteInfo]);
             
         } catch (\Exception $e) {
             Log::error('❌ Error en detalle de estante: ' . $e->getMessage());
@@ -1915,7 +1915,7 @@ class UbicacionController extends Controller
 
     public function estantes()
     {
-        return view('ubicaciones.estantes');
+        return view('pages.ubicaciones.estantes');
     }
 
     /**

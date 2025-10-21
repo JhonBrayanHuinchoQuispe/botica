@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
             case 'precio_venta':
                 esValido = valor.length > 0 && parseFloat(valor) > 0;
                 break;
-            case 'fecha_fabricacion':
             case 'fecha_vencimiento':
                 esValido = valor !== '';
                 break;
@@ -52,10 +51,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 esValido = input.hasAttribute('required') ? valor.length > 0 : true;
         }
 
-        // Validación adicional para fechas
+        // Validación adicional para fecha de vencimiento
         if (nombre === 'fecha_vencimiento' && esValido) {
-            const fechaFab = formAgregarProducto.querySelector('input[name="fecha_fabricacion"]').value;
-            if (fechaFab && valor <= fechaFab) {
+            const fechaVen = new Date(valor);
+            const hoy = new Date();
+            const fechaMinima = new Date(hoy.getTime() + (30 * 24 * 60 * 60 * 1000)); // 30 días desde hoy
+            
+            if (fechaVen < fechaMinima) {
                 esValido = false;
             }
         }
@@ -105,12 +107,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const stockMinimo = formAgregarProducto.querySelector('input[name="stock_minimo"]').value.trim();
         const precioCompra = formAgregarProducto.querySelector('input[name="precio_compra"]').value.trim();
         const precioVenta = formAgregarProducto.querySelector('input[name="precio_venta"]').value.trim();
-        const fechaFab = formAgregarProducto.querySelector('input[name="fecha_fabricacion"]').value;
         const fechaVen = formAgregarProducto.querySelector('input[name="fecha_vencimiento"]').value;
 
         // Validar que todos los campos requeridos tengan contenido
         if (!nombre || !concentracion || !numeroLote || !codigoBarras || !cantidadInicial || 
-            !stockMinimo || !precioCompra || !precioVenta || !fechaFab || !fechaVen) {
+            !stockMinimo || !precioCompra || !precioVenta || !fechaVen) {
             formularioValido = false;
         }
 
@@ -133,15 +134,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (stockMinimo && (isNaN(parseInt(stockMinimo)) || parseInt(stockMinimo) <= 0)) {
             formularioValido = false;
-        }
-
-        // Validar fechas
-        if (fechaFab && fechaVen) {
-            const fechaFabricacion = new Date(fechaFab);
-            const fechaVencimiento = new Date(fechaVen);
-            if (fechaVencimiento <= fechaFabricacion) {
-                formularioValido = false;
-            }
         }
 
         // Habilitar/deshabilitar botón de guardar

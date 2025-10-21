@@ -22,7 +22,7 @@ class RoleController extends Controller
         
         $permisos = Permission::all()->groupBy('modulo');
         
-        return view('admin.roles.index', compact('roles', 'permisos'));
+        return view('pages.admin.roles.index', compact('roles', 'permisos'));
     }
 
     /**
@@ -31,7 +31,7 @@ class RoleController extends Controller
     public function create()
     {
         $permisos = Permission::all()->groupBy('modulo');
-        return view('admin.roles.crear', compact('permisos'));
+        return view('pages.admin.roles.crear', compact('permisos'));
     }
 
     /**
@@ -110,7 +110,7 @@ class RoleController extends Controller
         
         // Vista normal para acceso directo
         $permisos = Permission::all()->groupBy('modulo');
-        return view('admin.roles.show', compact('role', 'permisos'));
+        return view('pages.admin.roles.show', compact('role', 'permisos'));
     }
 
     /**
@@ -138,7 +138,7 @@ class RoleController extends Controller
         
         // Vista normal para acceso directo
         $permisos = Permission::all()->groupBy('modulo');
-        return view('admin.roles.editar', compact('role', 'permisos'));
+        return view('pages.admin.roles.editar', compact('role', 'permisos'));
     }
 
     /**

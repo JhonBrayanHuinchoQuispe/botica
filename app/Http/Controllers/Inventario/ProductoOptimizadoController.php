@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Inventario;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductoRequest;
+use App\Models\Producto;
 use App\Services\ProductoService;
 use App\Repositories\ProductoRepository;
 use App\Events\ProductoActualizado;
@@ -119,13 +120,7 @@ class ProductoOptimizadoController extends Controller
             
             $datosLote = [
                 'numero_lote' => $data['numero_lote'],
-                'fecha_fabricacion' => $data['fecha_fabricacion'],
                 'fecha_vencimiento' => $data['fecha_vencimiento'],
-                'temperatura_almacenamiento' => $data['temperatura_almacenamiento'] ?? null,
-                'registro_sanitario' => $data['registro_sanitario'] ?? null,
-                'fabricante' => $data['fabricante'] ?? null,
-                'pais_origen' => $data['pais_origen'] ?? null,
-                'observaciones' => $data['observaciones_lote'] ?? null,
                 'cantidad_inicial' => $data['cantidad_inicial'],
                 'cantidad_actual' => $data['cantidad_inicial'],
                 'precio_compra' => $data['precio_compra'],
@@ -241,7 +236,7 @@ class ProductoOptimizadoController extends Controller
             if ($request->hasFile('imagen')) {
                 // Eliminar imagen anterior
                 if ($producto->imagen) {
-                    Storage::delete('public/productos/' . $producto->imagen);
+                    Storage::delete('public/uploads/productos/' . $producto->imagen);
                 }
                 $data['imagen'] = $this->guardarImagen($request->file('imagen'));
             }
@@ -304,7 +299,7 @@ class ProductoOptimizadoController extends Controller
             
             // Eliminar imagen si existe
             if ($producto->imagen) {
-                Storage::delete('public/productos/' . $producto->imagen);
+                Storage::delete('public/uploads/productos/' . $producto->imagen);
             }
             
             $this->productoRepository->delete($id);
@@ -541,7 +536,7 @@ class ProductoOptimizadoController extends Controller
                     'estado' => $estadoEspecifico,
                     'estadoTexto' => $producto->estado,
                     'barcode' => $producto->codigo_barras,
-                    'image' => $producto->imagen ? asset('storage/productos/' . $producto->imagen) : null,
+                    'image' => $producto->imagen ? asset('storage/uploads/productos/' . $producto->imagen) : null,
                     'ubicacion' => $producto->ubicacion_almacen,
                     'presentacion' => $producto->presentacion,
                     'concentracion' => $producto->concentracion,
@@ -553,13 +548,13 @@ class ProductoOptimizadoController extends Controller
                 ];
             });
             
-            // Estadísticas de productos críticos
+            // Estadísticas de productos críticos (optimizado)
             $estadisticas = [
                 'total_criticos' => $productos->total(),
-                'bajo_stock' => $this->productoRepository->getAllWithRelations()->where('estado', 'Bajo stock')->count(),
-                'por_vencer' => $this->productoRepository->getAllWithRelations()->where('estado', 'Por vencer')->count(),
-                'vencidos' => $this->productoRepository->getAllWithRelations()->where('estado', 'Vencido')->count(),
-                'agotados' => $this->productoRepository->getAllWithRelations()->where('stock_actual', '<=', 0)->count(),
+                'bajo_stock' => Producto::where('estado', 'Bajo stock')->count(),
+                'por_vencer' => Producto::where('estado', 'Por vencer')->count(),
+                'vencidos' => Producto::where('estado', 'Vencido')->count(),
+                'agotados' => Producto::where('stock_actual', '<=', 0)->count(),
             ];
             
             return response()->json([
@@ -626,8 +621,7 @@ class ProductoOptimizadoController extends Controller
                 ]);
             }
 
-            $existe = $this->productoRepository->getAllWithRelations()
-                ->where('nombre', 'LIKE', trim($nombre))
+            $existe = Producto::where('nombre', 'LIKE', trim($nombre))
                 ->where('concentracion', 'LIKE', trim($concentracion))
                 ->when($productoId, function($query) use ($productoId) {
                     return $query->where('id', '!=', $productoId);
@@ -669,8 +663,7 @@ class ProductoOptimizadoController extends Controller
                 ]);
             }
 
-            $existe = $this->productoRepository->getAllWithRelations()
-                ->where('codigo_barras', $codigoBarras)
+            $existe = Producto::where('codigo_barras', $codigoBarras)
                 ->when($productoId, function($query) use ($productoId) {
                     return $query->where('id', '!=', $productoId);
                 })
@@ -778,8 +771,7 @@ class ProductoOptimizadoController extends Controller
                 ], 400);
             }
 
-            $sugerencias = $this->productoRepository->getAllWithRelations()
-                ->where($campo, 'LIKE', "%{$termino}%")
+            $sugerencias = Producto::where($campo, 'LIKE', "%{$termino}%")
                 ->distinct()
                 ->limit($limite)
                 ->pluck($campo)
@@ -807,7 +799,7 @@ class ProductoOptimizadoController extends Controller
     private function guardarImagen($imagen): string
     {
         $nombreArchivo = time() . '_' . uniqid() . '.' . $imagen->getClientOriginalExtension();
-        $imagen->storeAs('public/productos', $nombreArchivo);
+        $imagen->storeAs('public/uploads/productos', $nombreArchivo);
         
         return $nombreArchivo;
     }

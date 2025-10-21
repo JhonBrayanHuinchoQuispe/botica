@@ -22,7 +22,7 @@ class AuthController extends Controller
 
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view('pages.auth.login');
     }
 
     public function login(Request $request)
@@ -100,6 +100,7 @@ class AuthController extends Controller
 
             // 4. Intentar autenticación
             if (Auth::attempt($credentials, $request->boolean('remember'))) {
+                /** @var \App\Models\User $user */
                 $user = Auth::user();
                 
                 // Login exitoso - resetear contadores
@@ -179,7 +180,7 @@ class AuthController extends Controller
      */
     public function showForgotPasswordForm()
     {
-        return view('auth.forgot-password');
+        return view('pages.auth.forgot-password');
     }
 
     /**
@@ -248,7 +249,7 @@ class AuthController extends Controller
      */
     public function showResetPasswordForm(Request $request, $token = null)
     {
-        return view('auth.reset-password', [
+        return view('pages.auth.reset-password', [
             'request' => $request,
             'token' => $token
         ]);
@@ -267,7 +268,7 @@ class AuthController extends Controller
             ]);
         }
 
-        return view('auth.verify-reset-code', compact('email'));
+        return view('pages.auth.verify-reset-code', compact('email'));
     }
 
     /**
@@ -358,7 +359,7 @@ class AuthController extends Controller
             ]);
         }
 
-        return view('auth.reset-password-with-code', compact('email', 'code'));
+        return view('pages.auth.reset-password-with-code', compact('email', 'code'));
     }
 
     /**
@@ -421,7 +422,7 @@ class AuthController extends Controller
             ]);
 
             // Retornar vista con SweetAlert
-            return view('auth.password-reset-success', [
+            return view('pages.auth.password-reset-success', [
                 'message' => '¡Contraseña cambiada exitosamente! Ya puedes iniciar sesión con tu nueva contraseña.'
             ]);
 

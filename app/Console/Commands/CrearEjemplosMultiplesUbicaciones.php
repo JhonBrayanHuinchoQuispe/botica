@@ -132,7 +132,6 @@ class CrearEjemplosMultiplesUbicaciones extends Command
                         'permite_venta_unitaria' => true,
                         'permite_venta_presentacion' => true,
                         'unidades_por_presentacion' => 1,
-                        'fecha_fabricacion' => now()->subMonths(6),
                         'fecha_vencimiento' => now()->addYears(2)
                     ]
                 );
@@ -219,4 +218,4 @@ class CrearEjemplosMultiplesUbicaciones extends Command
 
         return 0;
     }
-} 
+}

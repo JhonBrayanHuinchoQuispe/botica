@@ -19,7 +19,7 @@ class PuntoVentaController extends Controller
 {
     public function index()
     {
-        return view('punto-venta.index');
+        return view('pages.punto-venta.index');
     }
 
     /**
@@ -1358,7 +1358,7 @@ class PuntoVentaController extends Controller
         $venta = Venta::with(['cliente', 'detalles.producto', 'usuario'])
                      ->findOrFail($ventaId);
 
-        return view('punto-venta.vista-previa', compact('venta'));
+        return view('pages.punto-venta.vista-previa', compact('venta'));
     }
     
     /**

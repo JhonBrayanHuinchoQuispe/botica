@@ -10,6 +10,7 @@ use App\Models\Proveedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use App\Services\LoteService;
 use Carbon\Carbon;
 
@@ -31,7 +32,7 @@ class CompraController extends Controller
      */
     private function obtenerUsuarioId()
     {
-        return auth()->check() ? auth()->id() : 1; 
+        return Auth::check() ? Auth::id() : 1; 
     }
 
     /**
@@ -45,7 +46,7 @@ class CompraController extends Controller
             $presentaciones = Presentacion::orderBy('nombre')->get();
             $proveedores = Proveedor::activos()->orderBy('razon_social')->get();
             
-            return view('compras.nueva', compact('productos', 'categorias', 'presentaciones', 'proveedores'));
+            return view('pages.compras.nueva', compact('productos', 'categorias', 'presentaciones', 'proveedores'));
         } catch (\Exception $e) {
             Log::error('Error al cargar página de nueva entrada de mercadería: ' . $e->getMessage(), [
                 'file' => $e->getFile(),
@@ -72,7 +73,7 @@ class CompraController extends Controller
         $estadisticas = \App\Models\EntradaMercaderia::obtenerEstadisticas();
         $proveedores = Proveedor::orderBy('razon_social')->get();
         
-        return view('compras.historial', compact('entradas', 'estadisticas', 'proveedores'));
+        return view('pages.compras.historial', compact('entradas', 'estadisticas', 'proveedores'));
     }
 
     /**
@@ -81,7 +82,7 @@ class CompraController extends Controller
     public function proveedores()
     {
         $proveedores = Proveedor::orderBy('razon_social')->get();
-        return view('compras.proveedores', compact('proveedores'));
+        return view('pages.compras.proveedores', compact('proveedores'));
     }
 
     /**
@@ -96,22 +97,12 @@ class CompraController extends Controller
                 'ruc' => 'nullable|string|size:11|unique:proveedores,ruc',
                 'telefono' => 'nullable|string|max:20',
                 'email' => 'nullable|email|max:100',
-                'direccion' => 'nullable|string',
-                'ciudad' => 'nullable|string|max:100',
-                'departamento' => 'nullable|string|max:100',
-                'contacto_principal' => 'nullable|string|max:100',
-                'telefono_contacto' => 'nullable|string|max:20',
-                'email_contacto' => 'nullable|email|max:100',
-                'observaciones' => 'nullable|string',
-                'limite_credito' => 'nullable|numeric|min:0',
-                'dias_credito' => 'nullable|integer|min:0',
-                'categoria_proveedor' => 'nullable|string|max:50'
+                'direccion' => 'nullable|string'
             ], [
                 'razon_social.required' => 'La razón social del proveedor es obligatoria',
                 'ruc.size' => 'El RUC debe tener exactamente 11 dígitos',
                 'ruc.unique' => 'Ya existe un proveedor con este RUC',
-                'email.email' => 'El formato del email no es válido',
-                'email_contacto.email' => 'El formato del email de contacto no es válido'
+                'email.email' => 'El formato del email no es válido'
             ]);
 
             // Generar código de proveedor automático
@@ -160,22 +151,12 @@ class CompraController extends Controller
                 'ruc' => 'nullable|string|size:11|unique:proveedores,ruc,' . $id,
                 'telefono' => 'nullable|string|max:20',
                 'email' => 'nullable|email|max:100',
-                'direccion' => 'nullable|string',
-                'ciudad' => 'nullable|string|max:100',
-                'departamento' => 'nullable|string|max:100',
-                'contacto_principal' => 'nullable|string|max:100',
-                'telefono_contacto' => 'nullable|string|max:20',
-                'email_contacto' => 'nullable|email|max:100',
-                'observaciones' => 'nullable|string',
-                'limite_credito' => 'nullable|numeric|min:0',
-                'dias_credito' => 'nullable|integer|min:0',
-                'categoria_proveedor' => 'nullable|string|max:50'
+                'direccion' => 'nullable|string'
             ], [
                 'razon_social.required' => 'La razón social del proveedor es obligatoria',
                 'ruc.size' => 'El RUC debe tener exactamente 11 dígitos',
                 'ruc.unique' => 'Ya existe un proveedor con este RUC',
-                'email.email' => 'El formato del email no es válido',
-                'email_contacto.email' => 'El formato del email de contacto no es válido'
+                'email.email' => 'El formato del email no es válido'
             ]);
 
             $proveedor->update($request->all());

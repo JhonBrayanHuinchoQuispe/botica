@@ -16,9 +16,6 @@ class Cliente extends Model
         'nombres',
         'apellido_paterno',
         'apellido_materno',
-        'telefono',
-        'email',
-        'direccion',
         'activo'
     ];
 
@@ -73,4 +70,4 @@ class Cliente extends Model
             ]
         );
     }
-} 
+}

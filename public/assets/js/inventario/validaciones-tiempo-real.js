@@ -30,7 +30,6 @@ class ValidacionesTiempoReal {
             'stock_minimo': this.validateStock.bind(this),
             'precio_compra': this.validatePrecios.bind(this),
             'precio_venta': this.validatePrecios.bind(this),
-            'fecha_fabricacion': this.validateFechaFabricacion.bind(this),
             'fecha_vencimiento': this.validateFechaVencimiento.bind(this),
             'temperatura_almacenamiento': this.validateTemperatura.bind(this),
             'registro_sanitario': this.validateRegistroSanitario.bind(this),
@@ -52,7 +51,6 @@ class ValidacionesTiempoReal {
             'edit-stock_minimo': this.validateStock.bind(this),
             'edit-precio_compra': this.validatePrecios.bind(this),
             'edit-precio_venta': this.validatePrecios.bind(this),
-            'edit-fecha_fabricacion': this.validateFechaFabricacion.bind(this),
             'edit-fecha_vencimiento': this.validateFechaVencimiento.bind(this),
             'edit-temperatura_almacenamiento': this.validateTemperatura.bind(this),
             'edit-registro_sanitario': this.validateRegistroSanitario.bind(this),
@@ -416,37 +414,7 @@ class ValidacionesTiempoReal {
         return true;
     }
 
-    validateFechaFabricacion(field) {
-        const value = field.value;
-        
-        this.clearFieldError(field);
 
-        if (!value) {
-            this.showFieldError(field, 'La fecha de fabricación es obligatoria');
-            return false;
-        }
-
-        const fecha = new Date(value);
-        const hoy = new Date();
-        hoy.setHours(0, 0, 0, 0);
-
-        if (fecha > hoy) {
-            this.showFieldError(field, 'La fecha de fabricación no puede ser futura');
-            return false;
-        }
-
-        // Validar que no sea muy antigua (máximo 5 años)
-        const fechaMinima = new Date();
-        fechaMinima.setFullYear(fechaMinima.getFullYear() - 5);
-        
-        if (fecha < fechaMinima) {
-            this.showFieldError(field, 'La fecha de fabricación no puede ser mayor a 5 años');
-            return false;
-        }
-
-        this.showFieldSuccess(field);
-        return true;
-    }
 
     validateFechaVencimiento(field) {
         const value = field.value;
@@ -470,16 +438,12 @@ class ValidacionesTiempoReal {
             return false;
         }
 
-        // Validar que sea al menos 30 días después de la fabricación
-        const fechaFabField = form.querySelector(isEdit ? '#edit-fecha_fabricacion' : '[name="fecha_fabricacion"]');
-        if (fechaFabField?.value) {
-            const fechaFab = new Date(fechaFabField.value);
-            const diasDiferencia = (fecha - fechaFab) / (1000 * 60 * 60 * 24);
-            
-            if (diasDiferencia < 30) {
-                this.showFieldError(field, 'Debe haber al menos 30 días entre fabricación y vencimiento');
-                return false;
-            }
+        // Validar que sea al menos 30 días en el futuro
+        const diasDiferencia = (fecha - hoy) / (1000 * 60 * 60 * 24);
+        
+        if (diasDiferencia < 30) {
+            this.showFieldError(field, 'La fecha de vencimiento debe ser al menos 30 días en el futuro');
+            return false;
         }
 
         this.showFieldSuccess(field);
@@ -764,7 +728,6 @@ class ValidacionesTiempoReal {
             { field: form.querySelector(isEdit ? '#edit-stock_minimo' : '[name="stock_minimo"]'), validator: this.validateStock.bind(this) },
             { field: form.querySelector(isEdit ? '#edit-precio_compra' : '[name="precio_compra"]'), validator: this.validatePrecios.bind(this) },
             { field: form.querySelector(isEdit ? '#edit-precio_venta' : '[name="precio_venta"]'), validator: this.validatePrecios.bind(this) },
-            { field: form.querySelector(isEdit ? '#edit-fecha_fabricacion' : '[name="fecha_fabricacion"]'), validator: this.validateFechas.bind(this) },
             { field: form.querySelector(isEdit ? '#edit-fecha_vencimiento' : '[name="fecha_vencimiento"]'), validator: this.validateFechas.bind(this) }
         ];
 
