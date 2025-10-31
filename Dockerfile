@@ -3,7 +3,8 @@ FROM php:8.2-cli
 # Install system packages and PHP extensions required by Laravel
 RUN apt-get update && apt-get install -y \
     git unzip libpng-dev libzip-dev libonig-dev libxml2-dev \
- && docker-php-ext-configure gd --with-jpeg \
+    libjpeg-dev libfreetype6-dev \
+ && docker-php-ext-configure gd --with-jpeg --with-freetype \
  && docker-php-ext-install pdo_mysql gd mbstring zip xml \
  && rm -rf /var/lib/apt/lists/*
 
