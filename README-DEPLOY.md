@@ -25,11 +25,11 @@ Este proyecto está listo para desplegarse en Render usando Docker y conectarse 
    - `APP_DEBUG=false`
    - `APP_KEY=<tu-clave>`
    - `DB_CONNECTION=mysql`
-   - `DB_HOST=<host de AlwaysData>`
+   - `DB_HOST=jhonbrayanhuinchoquispe.alwaysdata.net`
    - `DB_PORT=3306`
    - `DB_DATABASE=sistemasic_botica`
-   - `DB_USERNAME=<usuario>`
-   - `DB_PASSWORD=<password>`
+   - `DB_USERNAME=436286`
+   - `DB_PASSWORD=brayan933783039`
 5. Post-Deploy Command: `php artisan migrate --force && php artisan storage:link || true`
 6. Deploy. Cuando el servicio esté `Deployed`, abre el URL público.
 
