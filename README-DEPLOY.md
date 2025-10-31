@@ -27,7 +27,7 @@ Este proyecto está listo para desplegarse en Render usando Docker y conectarse 
    - `DB_CONNECTION=mysql`
    - `DB_HOST=<host de AlwaysData>`
    - `DB_PORT=3306`
-   - `DB_DATABASE=<nombre>`
+   - `DB_DATABASE=sistemasic_botica`
    - `DB_USERNAME=<usuario>`
    - `DB_PASSWORD=<password>`
 5. Post-Deploy Command: `php artisan migrate --force && php artisan storage:link || true`
