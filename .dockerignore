@@ -1,0 +1,19 @@
+# Exclude files not needed in the build context
+.git
+.gitignore
+node_modules/
+npm-debug.log
+yarn.lock
+pnpm-lock.yaml
+
+# Exclude local storage artifacts and logs (keep public/storage symlink)
+storage/logs/
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
+
+# Exclude tests and misc local files
+tests/
+.env*
+README.md
+*.md
