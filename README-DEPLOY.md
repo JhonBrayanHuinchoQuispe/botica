@@ -30,7 +30,13 @@ Este proyecto está listo para desplegarse en Render usando Docker y conectarse 
    - `DB_DATABASE=sistemasic_botica`
    - `DB_USERNAME=436286`
    - `DB_PASSWORD=brayan933783039`
-5. Post-Deploy Command: `php artisan migrate --force && php artisan storage:link || true`
+5. Post-Deploy Command: `npm install && npm run build && php artisan migrate --force && php artisan db:seed --force && rm -rf public/storage && php artisan storage:link || true`
+   - `npm install`: Instala las dependencias de Node.js
+   - `npm run build`: Compila los assets (CSS, JS) para producción
+   - `php artisan migrate --force`: Ejecuta las migraciones de base de datos
+   - `php artisan db:seed --force`: Ejecuta los seeders para poblar la base de datos
+   - `rm -rf public/storage`: Elimina el enlace simbólico anterior (si existe)
+   - `php artisan storage:link`: Crea el enlace simbólico para el storage
 6. Deploy. Cuando el servicio esté `Deployed`, abre el URL público.
 
 ## Notas
