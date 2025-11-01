@@ -15,7 +15,7 @@ WORKDIR /app
 
 # Copy manifest first for better build cache, then install dependencies
 COPY composer.json composer.lock /app/
-RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader --ignore-platform-reqs
 
 # Copy application code
 COPY . /app
