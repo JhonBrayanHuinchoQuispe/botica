@@ -3,7 +3,18 @@
 FROM composer:2 AS vendor
 WORKDIR /app
 COPY composer.json composer.lock /app/
-RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+ENV COMPOSER_MEMORY_LIMIT=-1
+# Instalar dependencias ignorando requisitos de plataforma (las extensiones
+# estarán presentes en la imagen final). También deshabilitamos scripts para
+# evitar que fallen en esta etapa.
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --prefer-dist \
+    --optimize-autoloader \
+    --no-progress \
+    --no-scripts \
+    --ignore-platform-reqs
 COPY . /app
 RUN composer dump-autoload --optimize
 
@@ -33,6 +44,9 @@ ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf /etc/apache2/apache2.conf
 
 WORKDIR /var/www/html
+
+# Copiar binario de composer a la imagen final
+COPY --from=vendor /usr/bin/composer /usr/bin/composer
 
 # Copiar código y vendor desde la etapa de Composer
 COPY --from=vendor /app /var/www/html
