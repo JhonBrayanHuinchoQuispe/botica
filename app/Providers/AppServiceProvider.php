@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
@@ -41,6 +42,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Forzar HTTPS en producción para evitar contenido mixto y
+        // formularios marcados como no seguros detrás de proxy (Render).
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
         // Registrar observers
         Producto::observe(ProductoObserver::class);
         
