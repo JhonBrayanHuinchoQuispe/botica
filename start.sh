@@ -13,6 +13,12 @@ if [ ! -d "vendor" ]; then
   composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader || true
 fi
 
+# APP_KEY: si no está definido en el entorno de Render, generar uno temporal
+if [ -z "$APP_KEY" ] || [ "$APP_KEY" = "" ]; then
+  echo "[start] APP_KEY no definido. Generando uno temporal para este contenedor..."
+  export APP_KEY=$(php -r "echo 'base64:'.base64_encode(random_bytes(32));")
+fi
+
 # Enlaces y optimizaciones
 php artisan storage:link || true
 php artisan config:cache || true
