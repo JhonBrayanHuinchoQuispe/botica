@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: botica
+    env: docker
+    plan: free
+    autoDeploy: true
+    dockerfilePath: Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: SESSION_DRIVER
+        value: cookie
+      - key: CACHE_DRIVER
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+      # APP_URL, APP_KEY y DB_* se configuran en el panel de Render

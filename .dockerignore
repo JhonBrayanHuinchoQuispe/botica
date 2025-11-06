@@ -1,0 +1,22 @@
+# Ignorar archivos innecesarios en la imagen
+.git
+.github
+node_modules
+vendor/*
+storage/*.log
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/testing/*
+storage/framework/views/*
+bootstrap/cache/*
+.env
+.env.*
+*.md
+tests
+docker/
+botica_mobil/
+public/dist/*.map
+public/storage/*
+*.zip
+*.tar.gz
+*.rar
