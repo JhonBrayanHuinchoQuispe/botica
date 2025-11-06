@@ -73,12 +73,19 @@ class DashboardController extends Controller
         // 4. RENDIMIENTO (Ganancias estimadas)
         $costosVentas = 0;
         if (DB::getSchemaBuilder()->hasTable('venta_detalles')) {
-            $costosVentas = DB::table('venta_detalles')
-                ->join('productos', 'venta_detalles.producto_id', '=', 'productos.id')
-                ->join('ventas', 'venta_detalles.venta_id', '=', 'ventas.id')
-                ->where('ventas.estado', 'completada')
-                ->whereMonth('ventas.fecha_venta', Carbon::now('America/Lima')->month)
-                ->sum(DB::raw('venta_detalles.cantidad * productos.precio_compra'));
+            // Usar columna de costo disponible; si no existe 'precio_compra', fallback a 0
+            $tienePrecioCompra = DB::getSchemaBuilder()->hasColumn('productos', 'precio_compra');
+            if ($tienePrecioCompra) {
+                $costosVentas = DB::table('venta_detalles')
+                    ->join('productos', 'venta_detalles.producto_id', '=', 'productos.id')
+                    ->join('ventas', 'venta_detalles.venta_id', '=', 'ventas.id')
+                    ->where('ventas.estado', 'completada')
+                    ->whereMonth('ventas.fecha_venta', Carbon::now('America/Lima')->month)
+                    ->sum(DB::raw('venta_detalles.cantidad * productos.precio_compra'));
+            } else {
+                // Evitar error 500 cuando no existe la columna
+                $costosVentas = 0;
+            }
         }
         
         $rendimiento = $ingresosMes - $costosVentas;
