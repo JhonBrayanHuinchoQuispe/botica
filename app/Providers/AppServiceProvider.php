@@ -43,20 +43,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Forzar HTTPS en producción para evitar contenido mixto y
-        // formularios marcados como no seguros detrás de proxy (Render).
-        if (app()->environment('production')) {
-            URL::forceScheme('https');
-            // Asegurar cookies de sesión seguras y dominio correcto en producción
-            try {
+        // Forzar HTTPS detrás de proxy (Render) independientemente del APP_ENV
+        try {
+            $appUrlScheme = parse_url(config('app.url'), PHP_URL_SCHEME);
+            $isForwardedHttps = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https';
+            if ($appUrlScheme === 'https' || request()->isSecure() || $isForwardedHttps) {
+                URL::forceScheme('https');
                 Config::set('session.secure', true);
                 $host = parse_url(config('app.url'), PHP_URL_HOST);
                 if ($host) {
                     Config::set('session.domain', $host);
                 }
-            } catch (\Throwable $e) {
-                // Evitar que falle el arranque por configuración
             }
+        } catch (\Throwable $e) {
+            // Evitar que falle el arranque por configuración
         }
         // Registrar observers
         Producto::observe(ProductoObserver::class);
