@@ -111,11 +111,23 @@ class User extends Authenticatable
      */
     public function incrementFailedAttempts()
     {
-        $this->increment('failed_login_attempts');
-        $this->update(['last_failed_login' => now()]);
+        try {
+            $columns = \Illuminate\Support\Facades\Schema::getColumnListing($this->getTable());
+            if (in_array('failed_login_attempts', $columns)) {
+                $this->increment('failed_login_attempts');
+            }
+            if (in_array('last_failed_login', $columns)) {
+                $this->update(['last_failed_login' => now()]);
+            }
+        } catch (\Throwable $e) {
+            \Log::warning('No se pudo incrementar intentos fallidos', [
+                'user_id' => $this->id,
+                'error' => $e->getMessage()
+            ]);
+        }
 
         // Bloquear cuenta después de 5 intentos fallidos
-        if ($this->failed_login_attempts >= 5) {
+        if (isset($this->failed_login_attempts) && $this->failed_login_attempts >= 5) {
             $this->lockAccount();
         }
     }
@@ -135,11 +147,27 @@ class User extends Authenticatable
      */
     public function resetFailedAttempts()
     {
-        $this->update([
-            'failed_login_attempts' => 0,
-            'locked_until' => null,
-            'last_failed_login' => null
-        ]);
+        try {
+            $columns = \Illuminate\Support\Facades\Schema::getColumnListing($this->getTable());
+            $data = [];
+            if (in_array('failed_login_attempts', $columns)) {
+                $data['failed_login_attempts'] = 0;
+            }
+            if (in_array('locked_until', $columns)) {
+                $data['locked_until'] = null;
+            }
+            if (in_array('last_failed_login', $columns)) {
+                $data['last_failed_login'] = null;
+            }
+            if (!empty($data)) {
+                $this->update($data);
+            }
+        } catch (\Throwable $e) {
+            \Log::warning('No se pudo resetear intentos fallidos', [
+                'user_id' => $this->id,
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -147,10 +175,25 @@ class User extends Authenticatable
      */
     public function updateLastLogin($ipAddress)
     {
-        $this->update([
-            'last_login_at' => now(),
-            'last_login_ip' => $ipAddress
-        ]);
+        try {
+            // Actualizar solo si las columnas existen para evitar errores en instalaciones
+            $columns = \Illuminate\Support\Facades\Schema::getColumnListing($this->getTable());
+            $data = [];
+            if (in_array('last_login_at', $columns)) {
+                $data['last_login_at'] = now();
+            }
+            if (in_array('last_login_ip', $columns)) {
+                $data['last_login_ip'] = $ipAddress;
+            }
+            if (!empty($data)) {
+                $this->update($data);
+            }
+        } catch (\Throwable $e) {
+            \Log::warning('No se pudo actualizar último login', [
+                'user_id' => $this->id,
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     /**

@@ -23,6 +23,11 @@
                 </div>
                 
                 <h3 class="text-center">Iniciar Sesión</h3>
+                <div class="text-center mb-2">
+                    <a href="{{ route('diagnostico') }}" class="btn btn-outline-secondary btn-sm">
+                        Diagnóstico
+                    </a>
+                </div>
                 
                 <form method="POST" action="{{ route('login.post') }}">
                     @csrf

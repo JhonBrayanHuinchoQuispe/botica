@@ -39,6 +39,9 @@ Route::post('/password/resend-code', [AuthController::class, 'resendResetCode'])
 Route::get('/password/reset/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
 Route::post('/password/reset', [AuthController::class, 'resetPassword'])->name('password.store');
 
+// Diagnóstico del entorno (público solo lectura)
+Route::get('/diagnostico', [\App\Http\Controllers\Admin\DiagnosticoController::class, 'index'])->name('diagnostico');
+
 // ============================================
 // RUTAS PROTEGIDAS CON PERMISOS
 // ============================================
