@@ -10,8 +10,8 @@ body {
     position: absolute;
     width: 100%;
     height: 100%;
-    /* Usar ruta absoluta para producción */
-    background-image: url('/assets/images/auth/login-fondo.jpg');
+    /* Usar imagen existente en /imagen/login para que coincida con local y producción */
+    background-image: url('/imagen/login/login-fondo.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
