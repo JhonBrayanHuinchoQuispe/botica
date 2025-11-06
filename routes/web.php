@@ -15,12 +15,17 @@ use App\Http\Controllers\Inventario\presentacion\PresentacionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 // ============================================
 // RUTAS PÚBLICAS (SIN AUTENTICACIÓN)
 // ============================================
 
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
+// Alias para /login (Render accede a /login por defecto). Si ya estás autenticado, redirige al dashboard.
+Route::get('/login', function() {
+    return Auth::check() ? redirect()->route('dashboard.analisis') : app(\App\Http\Controllers\Auth\AuthController::class)->showLoginForm();
+})->name('login.page');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
